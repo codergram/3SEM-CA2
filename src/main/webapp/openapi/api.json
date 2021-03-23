@@ -1,0 +1,279 @@
+---
+openapi: 3.0.3
+info:
+  title: Onion API Documentation
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: "http://localhost:8080"
+paths:
+  /dat3-onionarch/api/customer:
+    post:
+      summary: Create customer
+      description: Create customer
+      operationId: createCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                balance:
+                  type: number
+                  example: 52000.0
+                fullName:
+                  type: string
+                  example: Kurt Verner
+            example:
+              balance: 52000.0
+              fullName: Kurt Verner
+      responses:
+        "200":
+          description: Create customer
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "90"
+            Date:
+              schema:
+                type: string
+                example: "Wed, 10 Feb 2021 12:48:05 GMT"
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountNumber:
+                    type: string
+                    example: 1732-1366796
+                  balance:
+                    type: number
+                    example: 52000
+                  customerId:
+                    type: number
+                    example: 4
+                  fullName:
+                    type: string
+                    example: Kurt Verner
+              examples:
+                Create customer:
+                  value:
+                    accountNumber: 1732-1366796
+                    balance: 52000
+                    customerId: 4
+                    fullName: Kurt Verner
+  /dat3-onionarch/api/customer/4:
+    get:
+      summary: Get customer by ID
+      description: Get customer by ID
+      operationId: getCustomerById
+      responses:
+        "200":
+          description: Get customer by ID
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "107"
+            Date:
+              schema:
+                type: string
+                example: "Wed, 10 Feb 2021 12:49:16 GMT"
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountNumber:
+                    type: string
+                    example: 1732-1366796
+                  balance:
+                    type: number
+                    example: -5000
+                  customerId:
+                    type: number
+                    example: 4
+                  fullName:
+                    type: string
+                    example: Kurt Verner
+              examples:
+                Get customer by ID:
+                  value:
+                    accountNumber: 1732-1366796
+                    balance: -5000
+                    customerId: 4
+                    fullName: Kurt Verner
+    put:
+      summary: Update customer by ID
+      description: Update customer by ID
+      operationId: updateCustomerById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                balance:
+                  type: number
+                  example: -5000.0
+                fullName:
+                  type: string
+                  example: Kurt Verner
+            example:
+              balance: -5000.0
+              fullName: Kurt Verner
+      responses:
+        "200":
+          description: Update customer by ID
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "90"
+            Date:
+              schema:
+                type: string
+                example: "Wed, 10 Feb 2021 12:48:56 GMT"
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accountNumber:
+                    type: string
+                    example: 1732-1366796
+                  balance:
+                    type: number
+                    example: -5000
+                  customerId:
+                    type: number
+                    example: 4
+                  fullName:
+                    type: string
+                    example: Kurt Verner
+              examples:
+                Update customer by ID:
+                  value:
+                    accountNumber: 1732-1366796
+                    balance: -5000
+                    customerId: 4
+                    fullName: Kurt Verner
+    delete:
+      summary: Delete customer by ID
+      description: Delete customer by ID
+      operationId: deleteCustomerById
+      responses:
+        "200":
+          description: Delete customer by ID
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "4"
+            Date:
+              schema:
+                type: string
+                example: "Wed, 10 Feb 2021 12:49:29 GMT"
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+          content:
+            application/octet-stream:
+              examples:
+                Delete customer by ID:
+                  value: "true"
+  /dat3-onionarch/api/customer/all:
+    get:
+      summary: Get all customers
+      description: Get all customers
+      operationId: getAllCustomers
+      responses:
+        "200":
+          description: Get all customers
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "232"
+            Date:
+              schema:
+                type: string
+                example: "Wed, 10 Feb 2021 12:47:26 GMT"
+            Server:
+              schema:
+                type: string
+                example: nginx/1.14.0 (Ubuntu)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    accountNumber:
+                      type: string
+                      example: "5678"
+                    balance:
+                      type: number
+                      example: 100
+                    customerId:
+                      type: number
+                      example: 1
+                    fullName:
+                      type: string
+                      example: anders nielsen
+                example:
+                  - accountNumber: "5678"
+                    balance: 100
+                    customerId: 1
+                    fullName: anders nielsen
+                  - accountNumber: "13224"
+                    balance: 142521
+                    customerId: 2
+                    fullName: emil elkjær
+              examples:
+                Get all customers:
+                  value:
+                    - accountNumber: "5678"
+                      balance: 100
+                      customerId: 1
+                      fullName: anders nielsen
+                    - accountNumber: "13224"
+                      balance: 142521
+                      customerId: 2
+                      fullName: emil elkjær
+tags: []
