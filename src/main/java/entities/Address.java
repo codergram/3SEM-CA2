@@ -141,8 +141,13 @@ public class Address implements Serializable {
 
   @Override
   public String toString() {
-    return "Address{" + "id=" + id + ", street=" + street + ", additionalInfo=" + additionalInfo + ", cityInfo=" + cityInfo.toString() + '}';
+    final StringBuilder sb = new StringBuilder("Address{");
+    sb.append("id=").append(id);
+    sb.append(", street='").append(street).append('\'');
+    sb.append(", additionalInfo='").append(additionalInfo).append('\'');
+    sb.append(", persons=").append(persons);
+    sb.append(", cityInfo=").append(cityInfo);
+    sb.append('}');
+    return sb.toString();
   }
-
-
 }

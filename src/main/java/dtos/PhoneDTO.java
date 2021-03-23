@@ -15,7 +15,7 @@ public class PhoneDTO {
     this.id = phone.getId();
     this.number = phone.getNumber();
     this.description = phone.getDescription();
-    this.person = new PersonDTO(phone.getPerson());
+    this.person = phone.getPerson() == null ? null : new PersonDTO(phone.getPerson());
   }
 
   public PhoneDTO(int number, String description) {

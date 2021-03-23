@@ -1,5 +1,6 @@
 package entities;
 
+import dtos.PersonDTO;
 import dtos.PhoneDTO;
 import java.io.Serializable;
 import java.util.Objects;
@@ -57,7 +58,7 @@ public class Phone implements Serializable {
     this.id = dto.getId();
     this.number = dto.getNumber();
     this.description = dto.getDescription();
-    this.person = new Person(dto.getPerson());
+    this.person = dto.getPerson() == null ? null : new Person(dto.getPerson());
   }
 
   //Getter and setters
