@@ -24,7 +24,9 @@ public class Utility {
     List l = new ArrayList();
     for(Object p: list){
       if(type == Phone.class) l.add(new Phone((PhoneDTO) p));
+      if(type == PhoneDTO.class) l.add(new PhoneDTO((Phone) p));
       if(type == Hobby.class) l.add(new Hobby((HobbyDTO) p));
+      if(type == HobbyDTO.class) l.add(new HobbyDTO((Hobby) p));
     }
     return l;
   }

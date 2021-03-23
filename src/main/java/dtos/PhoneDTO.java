@@ -18,6 +18,10 @@ public class PhoneDTO {
     this.person = phone.getPerson() == null ? null : new PersonDTO(phone.getPerson());
   }
 
+  public PhoneDTO(int number) {
+    this.number = number;
+  }
+
   public PhoneDTO(int number, String description) {
     this.number = number;
     this.description = description;

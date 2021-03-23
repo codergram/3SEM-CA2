@@ -245,7 +245,7 @@ public class PersonFacade {
   public List<Phone> getPhoneByPersonId(long id) {
     EntityManager em = emf.createEntityManager();
     try {
-      TypedQuery<Phone> query = em.createQuery("SELECT p FROM Phone p JOIN p.person pe WHERE pe.id = :id", Phone.class);
+      TypedQuery<Phone> query = em.createQuery("SELECT p FROM Phone p WHERE p.person.id = :id", Phone.class);
       query.setParameter("id", id);
       return query.getResultList();
     } catch (NoResultException ex) {
@@ -280,7 +280,6 @@ public class PersonFacade {
     Person person = em.find(Person.class, id);
 
     if (person != null) {
-
       List<Phone> phones = getPhoneByPersonId(id);
       List<Hobby> hobbies = getHobbyByPersonId(id);
       Address address = getAddressByPersonId(id);

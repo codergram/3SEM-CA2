@@ -1,8 +1,6 @@
 package dtos;
 
 import entities.Person;
-import entities.Phone;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PersonDTO {
@@ -11,9 +9,9 @@ public class PersonDTO {
   private String email;
   private String firstName;
   private String lastName;
-  private List<PhoneDTO> phones;
+  private PhonesDTO phones;
   private AddressDTO address;
-  private List<HobbyDTO> hobbies;
+  private HobbiesDTO hobbies;
 
   public PersonDTO() {}
 
@@ -22,11 +20,8 @@ public class PersonDTO {
     this.email = person.getEmail();
     this.firstName = person.getFirstName();
     this.lastName = person.getLastName();
-    this.phones = new ArrayList<>();
-
-
-    this.hobbies = new ArrayList<>();
-
+    this.phones = person.getPhones() == null ? null : new PhonesDTO(person.getPhones());
+    this.hobbies = person.getHobbies() == null ? null : new HobbiesDTO(person.getHobbies());
     this.address = person.getAddress() == null ? null : new AddressDTO(person.getAddress());
   }
 
@@ -36,15 +31,6 @@ public class PersonDTO {
     this.lastName = lastName;
   }
 
-  public PersonDTO(String email, String firstName, String lastName,
-      List<PhoneDTO> phones, AddressDTO address, List<HobbyDTO> hobbies) {
-    this.email = email;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.phones = phones;
-    this.address = address;
-    this.hobbies = hobbies;
-  }
 
   public Long getId() {
     return id;
@@ -79,20 +65,9 @@ public class PersonDTO {
   }
 
   public List<PhoneDTO> getPhones() {
-    return phones;
+    return phones.getAll();
   }
 
-  public void setPhones(List<PhoneDTO> phones) {
-    this.phones = phones;
-  }
-
-  public List<Phone> getPhoneList(){
-    List<Phone> list = new ArrayList<>();
-    for(PhoneDTO p: phones){
-      list.add(new Phone(p));
-    }
-    return list;
-  }
 
   public AddressDTO getAddress() {
     return address;
@@ -103,12 +78,9 @@ public class PersonDTO {
   }
 
   public List<HobbyDTO> getHobbies() {
-    return hobbies;
+    return hobbies.getAll();
   }
 
-  public void setHobbies(List<HobbyDTO> hobbies) {
-    this.hobbies = hobbies;
-  }
 
   @Override
   public String toString() {
