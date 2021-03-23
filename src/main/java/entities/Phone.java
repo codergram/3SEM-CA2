@@ -55,10 +55,8 @@ public class Phone implements Serializable {
   }
 
   public Phone(PhoneDTO dto){
-    this.id = dto.getId();
     this.number = dto.getNumber();
     this.description = dto.getDescription();
-    this.person = dto.getPerson() == null ? null : new Person(dto.getPerson());
   }
 
   //Getter and setters

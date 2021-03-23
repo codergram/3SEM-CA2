@@ -75,8 +75,8 @@ public class Person implements Serializable {
     this.email = dto.getEmail();
     this.firstName = dto.getFirstName();
     this.lastName = dto.getLastName();
-    this.phones = dto.getPhones() == null ? null : convertList(Phone.class, dto.getPhones());
-    this.hobbies = dto.getHobbies() == null ? null : convertList(Hobby.class, dto.getHobbies());
+    this.phones = dto.getPhones() == null ? null : dto.getNumberList();
+    this.hobbies = dto.getHobbies() == null ? null : dto.getHobbyList();
     this.address = dto.getAddress() == null ? null : new Address(dto.getAddress());
   }
 

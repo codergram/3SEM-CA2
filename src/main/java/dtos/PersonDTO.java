@@ -1,6 +1,10 @@
 package dtos;
 
+import entities.Hobby;
 import entities.Person;
+import entities.Phone;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PersonDTO {
@@ -66,6 +70,22 @@ public class PersonDTO {
 
   public List<PhoneDTO> getPhones() {
     return phones.getAll();
+  }
+
+  public List<Phone> getNumberList(){
+    ArrayList<Phone> list = new ArrayList<>();
+    for(PhoneDTO p: this.getPhones()){
+      list.add(new Phone(p.getNumber()));
+    }
+    return list;
+  }
+
+  public List<Hobby> getHobbyList(){
+    ArrayList<Hobby> list = new ArrayList<>();
+    for(HobbyDTO h: this.getHobbies()){
+      list.add(new Hobby(h.getName(), h.getDescription()));
+    }
+    return list;
   }
 
 

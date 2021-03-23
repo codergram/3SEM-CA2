@@ -93,37 +93,6 @@ public class PhoneFacade {
         }
     }
 
-    public synchronized PhoneDTO addPhoneToPerson(PhoneDTO pdto, long id) throws WebApplicationException {
-        if (pdto.getNumber() == 0 || pdto.getNumber() < 10000000) {
-            throw new WebApplicationException("Number is missing or is smaller den 8 digits", 400);
-        }
-        if (!isPhoneNumberTaken(pdto)) {
-            EntityManager em = emf.createEntityManager();
-            Person person = em.find(Person.class, id);
-            if (person == null) {
-                throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 404);
-            }
-            pdto = createPhone(pdto);
-            Phone phone = em.find(Phone.class, pdto.getId());
-            if (phone == null) {
-                throw new WebApplicationException(String.format("No phone with provided id: (%d) found", pdto.getId()), 404);
-            }
-            phone.setPerson(person);
-            try {
-                em.getTransaction().begin();
-                em.merge(phone);
-                em.getTransaction().commit();
-                return new PhoneDTO(phone);
-            } catch (RuntimeException ex) {
-                throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
-            } finally {
-                em.close();
-            }
-        } else {
-            throw new WebApplicationException("Phone number is aldready taken", 400);
-        }
-    }
-
     public synchronized PhoneDTO deletePhoneFromPerson(long phoneId, long personId) throws WebApplicationException {
         if (phoneId <= 0 || personId <= 0) {
             throw new WebApplicationException("The provided is at not valid", 400);
