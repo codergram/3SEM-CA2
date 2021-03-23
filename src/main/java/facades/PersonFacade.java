@@ -60,7 +60,7 @@ public class PersonFacade {
           em.persist(person.getAddress());
           System.out.println("persistet: " + person.getAddress());
         }
-        if(!person.getPhones().isEmpty()){
+        if(person.getPhones() != null){
           System.out.println("phones not empty: " + Arrays.toString(person.getPhones().toArray()));
           for(Phone p: person.getPhones()){
             em.persist(p);
@@ -71,9 +71,7 @@ public class PersonFacade {
         em.persist(person);
         System.out.println("persitet: " + person);
         em.getTransaction().commit();
-      } catch (Exception ex) {
-        System.out.println(ex);
-        throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+
       } finally {
         em.close();
       }

@@ -37,12 +37,8 @@ public class PersonResource {
   @Path("{id}")
   @GET
   @Produces({MediaType.APPLICATION_JSON})
-  public Response getPersonById(@PathParam("id") long id) {
-    PersonDTO dto = FACADE.getPersonById(id);
-    System.out.println("DTO found: " + dto);
-    //String gson = GSON.toJson(dto, PersonDTO.class);
-    //System.out.println("GSON: " + gson);
-    return Response.ok(dto, MediaType.APPLICATION_JSON).build();
+  public String getPersonById(@PathParam("id") long id) {
+    return GSON.toJson(FACADE.getPersonById(id), PersonDTO.class);
   }
 
   @Path("hobby/{hobby}")
