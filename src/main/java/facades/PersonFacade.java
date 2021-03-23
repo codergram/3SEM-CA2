@@ -42,32 +42,104 @@ public class PersonFacade {
     return emf.createEntityManager();
   }
 
+  public synchronized PhoneDTO createPhone(PhoneDTO pdto) throws WebApplicationException {
+    if (pdto.getNumber() == 0 || pdto.getNumber() < 10000000) {
+      throw new WebApplicationException("Number is missing or is smaller den 8 digits", 400);
+    }
+    Phone p = new Phone(pdto.getNumber(), pdto.getDescription());
+    p = checkIfNumberExistsElseCreateIt(p);
+    return new PhoneDTO(p);
+  }
+
+  public synchronized PhoneDTO addPhoneToPerson(PhoneDTO pdto, long id) throws WebApplicationException {
+    if (pdto.getNumber() == 0 || pdto.getNumber() < 10000000) {
+      throw new WebApplicationException("Number is missing or is smaller den 8 digits", 400);
+    }
+    if (!isPhoneNumberTaken(pdto)) {
+      EntityManager em = emf.createEntityManager();
+      Person person = em.find(Person.class, id);
+      if (person == null) {
+        throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 404);
+      }
+      pdto = createPhone(pdto);
+      Phone phone = em.find(Phone.class, pdto.getId());
+      if (phone == null) {
+        throw new WebApplicationException(String.format("No phone with provided id: (%d) found", pdto.getId()), 404);
+      }
+      phone.setPerson(person);
+      try {
+        em.getTransaction().begin();
+        em.merge(phone);
+        em.getTransaction().commit();
+        return new PhoneDTO(phone);
+      } catch (RuntimeException ex) {
+        throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+      } finally {
+        em.close();
+      }
+    } else {
+      throw new WebApplicationException("Phone number is aldready taken", 400);
+    }
+  }
+
+  private synchronized Phone checkIfNumberExistsElseCreateIt(Phone phone) {
+    EntityManager em = emf.createEntityManager();
+    try {
+      Query query = em.createQuery("SELECT p FROM Phone p WHERE p.number = :number", Phone.class);
+      query.setParameter("number", phone.getNumber());
+      phone = (Phone) query.getSingleResult();
+      return phone;
+    } catch (NoResultException ex) {
+      em.getTransaction().begin();
+      em.persist(phone);
+      em.getTransaction().commit();
+      return phone;
+    } catch (RuntimeException ex) {
+      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+    } finally {
+      em.close();
+    }
+  }
+
+  private Boolean isPhoneNumberTaken(PhoneDTO phoneDTO) {
+    EntityManager em = emf.createEntityManager();
+    try {
+      Query query = em.createQuery("SELECT p FROM Phone p WHERE p.number = :number", Phone.class);
+      query.setParameter("number", phoneDTO.getNumber());
+      Phone phone = (Phone) query.getSingleResult();
+      if (phone.getPerson() != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (NoResultException ex) {
+      return false;
+    } catch (RuntimeException ex) {
+      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+    } finally {
+      em.close();
+    }
+  }
+
   public synchronized PersonDTO createPerson(PersonDTO personDTO) {
     if (Utility.ValidatePersonDto(personDTO) && !isEmailTaken(personDTO)) {
-      System.out.println("Validation passed for: " + personDTO);
       Person person = new Person(personDTO);
-      System.out.println("Person entity: " + person);
       EntityManager em = emf.createEntityManager();
       try {
         em.getTransaction().begin();
         if(person.getAddress() != null){
-          System.out.println("Address not null");
           if(person.getAddress().getCityInfo() != null){
-            System.out.println("CityInfo not null");
             em.persist(person.getAddress().getCityInfo());
-            System.out.println("persitet; " + person.getAddress().getCityInfo());
           }
           em.persist(person.getAddress());
-          System.out.println("persistet: " + person.getAddress());
         }
         if(person.getPhones() != null){
-          System.out.println("phones not empty: " + Arrays.toString(person.getPhones().toArray()));
           for(Phone p: person.getPhones()){
             em.persist(p);
-            System.out.println("persistet: " + p);
+            p.setPerson(person);
+            em.merge(p);
           }
         }
-        System.out.println("Trying to persist");
         em.persist(person);
         System.out.println("persitet: " + person);
         em.getTransaction().commit();
