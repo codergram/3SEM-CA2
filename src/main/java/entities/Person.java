@@ -75,8 +75,8 @@ public class Person implements Serializable {
     this.email = dto.getEmail();
     this.firstName = dto.getFirstName();
     this.lastName = dto.getLastName();
-    this.phones = dto.getPhones() == null ? null : dto.getNumberList();
-    this.hobbies = dto.getHobbies() == null ? null : dto.getHobbyList();
+    this.phones = dto.getPhones() != null ? getNumberList(dto.getPhones()) : new ArrayList<>();
+    this.hobbies = dto.getHobbies() != null ? getHobbyList(dto.getHobbies()) : new ArrayList<>();
     this.address = dto.getAddress() == null ? null : new Address(dto.getAddress());
   }
 
@@ -159,6 +159,42 @@ public class Person implements Serializable {
       this.hobbies.add(hobby);
       hobby.getPersons().remove(this);
     }
+  }
+
+  public List<Phone> getNumberList(List<PhoneDTO> phoneDTOS){
+    ArrayList<Phone> list = new ArrayList<>();
+    if (this.getPhones() != null) {
+      for (PhoneDTO p : phoneDTOS) {
+        list.add(new Phone(p.getNumber()));
+      }
+    }
+    return list;
+  }
+
+  public List<PhoneDTO> getNumberDTOList(List<Phone> phones){
+    ArrayList<PhoneDTO> list = new ArrayList<>();
+    if (phones != null) {
+      for (Phone p : phones) {
+        list.add(new PhoneDTO(p.getNumber()));
+      }
+    }
+    return list;
+  }
+
+  public List<Hobby> getHobbyList(List<HobbyDTO> hobbyDTOS){
+    ArrayList<Hobby> list = new ArrayList<>();
+    for(HobbyDTO h: hobbyDTOS){
+      list.add(new Hobby(h.getName(), h.getDescription()));
+    }
+    return list;
+  }
+
+  public List<HobbyDTO> getHobbyDTOList(List<Hobby> hobby){
+    ArrayList<HobbyDTO> list = new ArrayList<>();
+    for(Hobby h: hobby){
+      list.add(new HobbyDTO(h.getName(), h.getDescription()));
+    }
+    return list;
   }
 
   @Override

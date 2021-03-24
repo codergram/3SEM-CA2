@@ -66,7 +66,6 @@ public class PersonResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public PersonDTO createNewPerson(PersonDTO p) {
-    System.out.println("Got: " + p);
     return FACADE.createPerson(p);
 
   }

@@ -60,9 +60,12 @@ public class PersonFacade {
 
   public synchronized PersonDTO createPerson(PersonDTO personDTO) {
     if (Utility.ValidatePersonDto(personDTO) && !isEmailTaken(personDTO)) {
-      Person person = new Person(personDTO);
+      Person person = null;
       EntityManager em = emf.createEntityManager();
       try {
+        System.out.println("DTO obj: " + personDTO);
+        person = new Person(personDTO);
+        System.out.println("Person obj: " + person);
         em.getTransaction().begin();
         if(person.getAddress() != null){
           if(person.getAddress().getCityInfo() != null){
