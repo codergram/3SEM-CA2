@@ -6,14 +6,13 @@ import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import entities.CityInfo;
 import entities.Hobby;
+import facades.MainFacade;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 import utils.EMF_Creator;
-import facades.PersonFacade;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,7 +24,7 @@ public class PersonResource {
 
   private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
 
-  private static final PersonFacade FACADE = PersonFacade.getFacade(EMF);
+  private static final MainFacade FACADE = MainFacade.getFacade(EMF);
   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
   @GET

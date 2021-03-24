@@ -1,16 +1,13 @@
 package facades;
 
-import dtos.AddressDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
-import dtos.PhoneDTO;
 import entities.Address;
 import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,27 +15,26 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
-import utils.EMF_Creator;
 import utils.Utility;
 
-public class PersonFacade {
+public class MainFacade {
 
-  private static PersonFacade instance;
-  private static EntityManagerFactory emf;
+  protected static MainFacade instance;
+  protected static EntityManagerFactory emf;
 
   //Private Constructor to ensure Singleton
-  private PersonFacade() {
+  protected MainFacade() {
   }
 
-  public static PersonFacade getFacade(EntityManagerFactory _emf) {
+  public static MainFacade getFacade(EntityManagerFactory _emf) {
     if (instance == null) {
       emf = _emf;
-      instance = new PersonFacade();
+      instance = new MainFacade();
     }
     return instance;
   }
 
-  private EntityManager getEntityManager() {
+  protected EntityManager getEntityManager() {
     return emf.createEntityManager();
   }
 
@@ -49,6 +45,26 @@ public class PersonFacade {
       query.setParameter("number", phone.getNumber());
       phone = (Phone) query.getSingleResult();
       return phone != null;
+    } catch (NoResultException ex) {
+      return false;
+    } catch (RuntimeException ex) {
+      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+    } finally {
+      em.close();
+    }
+  }
+
+  private boolean isEmailTaken(PersonDTO personDTO) {
+    EntityManager em = emf.createEntityManager();
+    try {
+      Query query = em.createQuery("SELECT p FROM Person p WHERE p.email = :email", Person.class);
+      query.setParameter("email", personDTO.getEmail());
+      Person person = (Person) query.getSingleResult();
+      if (person != null) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (NoResultException ex) {
       return false;
     } catch (RuntimeException ex) {
@@ -126,46 +142,13 @@ public class PersonFacade {
     }
   }
 
-  public synchronized PersonDTO addAddressToPerson(AddressDTO addressDTO, long id) {
-    if (addressDTO.getStreet() == null) {
-      throw new WebApplicationException("Street is missing", 400);
-    } else if (addressDTO.getCityInfo().getZipCode() == null || addressDTO.getCityInfo().getCity() == null) {
-      throw new WebApplicationException("Zipcode or city is missing", 400);
-    }
-    addressDTO = new AddressFacade().createAddress(addressDTO);
-    EntityManager em = emf.createEntityManager();
-    Address address = em.find(Address.class, addressDTO.getId());
-    if (address == null) {
-      throw new WebApplicationException(String.format("No address with provided id: (%d) found", addressDTO.getId()), 404);
-    }
-    Person person = em.find(Person.class, id);
-    if (person == null) {
-      throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 404);
-    }
-    try {
-      person.setAddress(address);
-      //address.addPerson(person);
-      em.getTransaction().begin();
-      //em.merge(address);
-      em.merge(person);
-      em.getTransaction().commit();
-      return new PersonDTO(person);
-    } catch (RuntimeException ex) {
-      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
-    } finally {
-      em.close();
-    }
-  }
-
-
-
   public synchronized PersonDTO addHobbyToPerson(HobbyDTO hobbyDTO, long id) {
     if (id <= 0) {
       throw new WebApplicationException("The provided is at not valid", 400);
     } else if (hobbyDTO.getName() == null) {
       throw new WebApplicationException("The hobby name is at not valid", 400);
     }
-    hobbyDTO = new HobbyFacade().createHobby(hobbyDTO);
+    hobbyDTO = new SubFacade().createHobby(hobbyDTO);
     EntityManager em = emf.createEntityManager();
     Hobby hobby = em.find(Hobby.class, hobbyDTO.getId());
     if (hobby == null) {
@@ -187,8 +170,6 @@ public class PersonFacade {
       em.close();
     }
   }
-
-
 
   public List<Phone> getPhoneByPersonId(long id) {
     EntityManager em = emf.createEntityManager();
@@ -240,7 +221,6 @@ public class PersonFacade {
       throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 400);
     }
   }
-
 
   public List<PersonDTO> getPersonListByZip(CityInfo cityInfo) {
     if (cityInfo.getZipCode() == null) {
@@ -302,42 +282,6 @@ public class PersonFacade {
     query.setParameter("name", hobby.getName());
     long count = (long) query.getSingleResult();
     return count;
-  }
-
-  public List<PersonDTO> getAllPersonsFullInfo() {
-    EntityManager em = emf.createEntityManager();
-    TypedQuery<Person> query = em.createQuery("SELECT person FROM Person person", Person.class);
-    List<Person> persons = query.getResultList();
-    List<PersonDTO> dtos = new ArrayList<>();
-    for(Person p: persons){
-      dtos.add(new PersonDTO(p));
-    }
-    return dtos;
-  }
-
-  private boolean isEmailTaken(PersonDTO personDTO) {
-    EntityManager em = emf.createEntityManager();
-    try {
-      Query query = em.createQuery("SELECT p FROM Person p WHERE p.email = :email", Person.class);
-      query.setParameter("email", personDTO.getEmail());
-      Person person = (Person) query.getSingleResult();
-      if (person != null) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (NoResultException ex) {
-      return false;
-    } catch (RuntimeException ex) {
-      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
-    } finally {
-      em.close();
-    }
-  }
-
-  public static void main(String[] args) {
-    emf = EMF_Creator.createEntityManagerFactory();
-    PersonFacade fe = getFacade(emf);
   }
 
 }
