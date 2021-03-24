@@ -1,8 +1,10 @@
 package utils;
 
+import dtos.CityInfoDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import dtos.PhoneDTO;
+import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
@@ -27,6 +29,7 @@ public class Utility {
       if(type == PhoneDTO.class) l.add(new PhoneDTO((Phone) p));
       if(type == Hobby.class) l.add(new Hobby((HobbyDTO) p));
       if(type == HobbyDTO.class) l.add(new HobbyDTO((Hobby) p));
+      if(type == CityInfo.class) l.add(new CityInfoDTO((CityInfo) p));
     }
     return l;
   }

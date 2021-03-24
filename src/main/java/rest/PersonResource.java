@@ -2,7 +2,6 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import entities.CityInfo;
 import entities.Hobby;
@@ -26,12 +25,6 @@ public class PersonResource {
 
   private static final MainFacade FACADE = MainFacade.getFacade(EMF);
   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-
-  @GET
-  @Produces({MediaType.APPLICATION_JSON})
-  public String demo() {
-    return "{\"msg\":\"Hello World\"}";
-  }
 
   @Path("{id}")
   @GET
@@ -61,20 +54,18 @@ public class PersonResource {
     return GSON.toJson(FACADE.getPersonCountByHobby(new Hobby(hobby)));
   }
 
+  @Path("address/zip")
+  @GET
+  @Produces({MediaType.APPLICATION_JSON})
+  public String getListOfZips() {
+    return GSON.toJson(FACADE.getAllZips());
+  }
+
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
   public PersonDTO createNewPerson(PersonDTO p) {
     return FACADE.createPerson(p);
-
-  }
-
-  @Path("{id}/hobby")
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.APPLICATION_JSON)
-  public PersonDTO addHobbyToPerson(@PathParam("id") long id, HobbyDTO hobby) {
-    return FACADE.addHobbyToPerson(hobby, id);
 
   }
 

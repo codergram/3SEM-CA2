@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.CityInfoDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
 import entities.Address;
@@ -325,4 +326,9 @@ public class MainFacade {
     return (long) query.getSingleResult();
   }
 
+  public List<CityInfoDTO> getAllZips() {
+    EntityManager em = emf.createEntityManager();
+    TypedQuery<CityInfo> query = em.createQuery("SELECT c FROM CityInfo c", CityInfo.class);
+    return Utility.convertList(CityInfo.class, query.getResultList());
+  }
 }
