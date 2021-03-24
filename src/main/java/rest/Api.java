@@ -1,21 +1,12 @@
 package rest;
 
 import java.util.Set;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
-import javax.ws.rs.core.MediaType;
 
 @javax.ws.rs.ApplicationPath("api")
 public class Api extends Application {
-
-  @GET
-  @Produces({MediaType.APPLICATION_JSON})
-  public String alive() {
-    return "{\"msg\":\"I am alive\"}";
-  }
 
   @Override
   public Set<Class<?>> getClasses() {
@@ -40,6 +31,7 @@ public class Api extends Application {
     resources.add(exceptions.ExceptionHandler.class);
     resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
     resources.add(rest.PersonResource.class);
+    resources.add(rest.BaseResource.class);
   }
 
 }
