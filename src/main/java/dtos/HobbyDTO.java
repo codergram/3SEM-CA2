@@ -1,15 +1,11 @@
 package dtos;
 
 import entities.Hobby;
-import entities.Person;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HobbyDTO {
   private Long id;
   private String name;
   private String description;
-  private List<PersonDTO> persons;
 
   public HobbyDTO(){}
 
@@ -17,10 +13,6 @@ public class HobbyDTO {
     this.id = hobby.getId();
     this.name = hobby.getName();
     this.description = hobby.getDescription();
-    this.persons = new ArrayList<>();
-    for(Person p: hobby.getPersons()){
-      this.persons.add(new PersonDTO(p));
-    }
   }
 
   public HobbyDTO(String name, String description) {
@@ -28,10 +20,10 @@ public class HobbyDTO {
     this.description = description;
   }
 
-  public HobbyDTO(String name, String description, List<PersonDTO> persons) {
+  public HobbyDTO(Long id, String name, String description) {
+    this.id = id;
     this.name = name;
     this.description = description;
-    this.persons = persons;
   }
 
   public Long getId() {
@@ -58,21 +50,12 @@ public class HobbyDTO {
     this.description = description;
   }
 
-  public List<PersonDTO> getPersons() {
-    return persons;
-  }
-
-  public void setPersons(List<PersonDTO> persons) {
-    this.persons = persons;
-  }
-
   @Override
   public String toString() {
     final StringBuilder sb = new StringBuilder("HobbyDTO{");
     sb.append("id=").append(id);
     sb.append(", name='").append(name).append('\'');
     sb.append(", description='").append(description).append('\'');
-    sb.append(", persons=").append(persons);
     sb.append('}');
     return sb.toString();
   }

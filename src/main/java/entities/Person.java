@@ -8,6 +8,7 @@ import dtos.PersonDTO;
 import dtos.PhoneDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -77,7 +78,7 @@ public class Person implements Serializable {
     this.lastName = dto.getLastName();
     this.phones = dto.getPhones() != null ? getNumberList(dto.getPhones()) : new ArrayList<>();
     this.hobbies = dto.getHobbies() != null ? getHobbyList(dto.getHobbies()) : new ArrayList<>();
-    this.address = dto.getAddress() == null ? null : new Address(dto.getAddress());
+    this.address = dto.getAddress() != null ? new Address(dto.getAddress()) : null;
   }
 
 
@@ -163,11 +164,12 @@ public class Person implements Serializable {
 
   public List<Phone> getNumberList(List<PhoneDTO> phoneDTOS){
     ArrayList<Phone> list = new ArrayList<>();
-    if (this.getPhones() != null) {
+    System.out.println("List of DTO: " + Arrays.toString(phoneDTOS.toArray()));
       for (PhoneDTO p : phoneDTOS) {
+        System.out.println("add to new list: " + p);
         list.add(new Phone(p.getNumber()));
       }
-    }
+    System.out.println("List of phones: " + Arrays.toString(list.toArray()));
     return list;
   }
 
@@ -192,9 +194,13 @@ public class Person implements Serializable {
   public List<HobbyDTO> getHobbyDTOList(List<Hobby> hobby){
     ArrayList<HobbyDTO> list = new ArrayList<>();
     for(Hobby h: hobby){
-      list.add(new HobbyDTO(h.getName(), h.getDescription()));
+      list.add(new HobbyDTO(h));
     }
     return list;
+  }
+
+  public void replaceHobbies(ArrayList<Hobby> hobbies) {
+    this.hobbies = hobbies;
   }
 
   @Override

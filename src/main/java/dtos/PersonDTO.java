@@ -32,6 +32,13 @@ public class PersonDTO {
     this.lastName = lastName;
   }
 
+  public PersonDTO(String email, String firstName, String lastName, List<PhoneDTO> phones) {
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phones = phones;
+  }
+
 
   public Long getId() {
     return id;

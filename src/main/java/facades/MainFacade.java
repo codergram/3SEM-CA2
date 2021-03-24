@@ -74,38 +74,80 @@ public class MainFacade {
     }
   }
 
+  private synchronized Hobby createHobby(HobbyDTO hobby) {
+    EntityManager em = emf.createEntityManager();
+    try {
+      Query query = em.createQuery("SELECT h FROM Hobby h WHERE h.name = :name AND h.description = :des", Hobby.class);
+      query.setParameter("name", hobby.getName());
+      query.setParameter("des", hobby.getDescription());
+      hobby = (HobbyDTO) query.getSingleResult();
+      return new Hobby(hobby);
+    } catch (NoResultException ex) {
+      Hobby h = new Hobby(hobby);
+      em.getTransaction().begin();
+      em.persist(h);
+      em.getTransaction().commit();
+      return h;
+    } catch (RuntimeException ex) {
+      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
+    } finally {
+      em.close();
+    }
+  }
+
+  private synchronized Hobby findHobbyByName(Hobby hobby) {
+    EntityManager em = emf.createEntityManager();
+    try {
+      Query query = em.createQuery("SELECT h FROM Hobby h WHERE h.name = :name", Hobby.class);
+      query.setParameter("name", hobby.getName());
+      hobby = (Hobby) query.getSingleResult();
+      return hobby;
+    } finally {
+      em.close();
+    }
+  }
+
   public synchronized PersonDTO createPerson(PersonDTO personDTO) {
     if (Utility.ValidatePersonDto(personDTO) && !isEmailTaken(personDTO)) {
       Person person = null;
+      List<HobbyDTO> hobbies = personDTO.getHobbies();
+      List<HobbyDTO> h2 = new ArrayList<>();
+      personDTO.setHobbies(h2);
       EntityManager em = emf.createEntityManager();
       try {
-        System.out.println("DTO obj: " + personDTO);
         person = new Person(personDTO);
-        System.out.println("Person obj: " + person);
+
         em.getTransaction().begin();
-        if(person.getAddress() != null){
-          if(person.getAddress().getCityInfo() != null){
-            CityInfo ci = person.getAddress().getCityInfo();
+        if(person.getAddress() != null && person.getAddress().getCityInfo() != null){
+            Address a = person.getAddress();
+            CityInfo ci = a.getCityInfo();
             em.persist(ci);
-            person.getAddress().setCityInfo(ci);
-            em.merge(ci);
-          }
-          em.persist(person.getAddress());
+            a.setCityInfo(ci);
+            em.persist(a);
         }
-        if(person.getPhones() != null){
-          for(Phone p: person.getPhones()){
+        if (person.getPhones() != null) {
+          for (Phone p : person.getPhones()) {
             if (!checkIfNumberExists(p)) {
-              System.out.println("number does not exist: " + p);
               em.persist(p);
               p.setPerson(person);
               em.merge(p);
-            } else {
-              System.out.println("Number exists: " + p);
             }
           }
         }
+
         em.persist(person);
-        System.out.println("persitet: " + person);
+
+        if(person.getHobbies() != null){
+          for(HobbyDTO h: hobbies){
+            Hobby ho = createHobby(h);
+            em.find(Hobby.class, ho.getId());
+            person.addHobby(ho);
+            em.merge(person);
+          }
+        }
+
+        em.merge(person);
+
         em.getTransaction().commit();
 
       } finally {
@@ -280,8 +322,7 @@ public class MainFacade {
     EntityManager em = emf.createEntityManager();
     Query query = em.createQuery("SELECT COUNT(p) FROM Person p JOIN p.hobbies h WHERE h.name = :name ");
     query.setParameter("name", hobby.getName());
-    long count = (long) query.getSingleResult();
-    return count;
+    return (long) query.getSingleResult();
   }
 
 }

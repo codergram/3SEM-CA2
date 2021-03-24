@@ -57,6 +57,7 @@ public class Address implements Serializable {
   public Address(AddressDTO dto){
     this.street = dto.getStreet();
     this.additionalInfo = dto.getAdditionalInfo();
+    this.cityInfo = new CityInfo(dto.getCityInfo());
   }
 
   //getter and setters

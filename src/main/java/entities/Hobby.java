@@ -55,13 +55,11 @@ public class Hobby implements Serializable {
     this.name = dto.getName();
     this.description = dto.getDescription();
     this.persons = new ArrayList<>();
-    for(PersonDTO p: dto.getPersons()){
-      this.persons.add(new Person(p));
-    }
   }
 
   public Hobby(String name) {
     this.name = name;
+    this.persons = new ArrayList<>();
   }
 
   //Getter and setters
