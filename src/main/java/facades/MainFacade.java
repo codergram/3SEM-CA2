@@ -78,19 +78,15 @@ public class MainFacade {
   private synchronized Hobby createHobby(HobbyDTO hobby) {
     EntityManager em = emf.createEntityManager();
     try {
-      Query query = em.createQuery("SELECT h FROM Hobby h WHERE h.name = :name AND h.description = :des", Hobby.class);
+      Query query = em.createQuery("SELECT h FROM Hobby h WHERE h.name = :name", Hobby.class);
       query.setParameter("name", hobby.getName());
-      query.setParameter("des", hobby.getDescription());
-      hobby = (HobbyDTO) query.getSingleResult();
-      return new Hobby(hobby);
+      return (Hobby) query.getSingleResult();
     } catch (NoResultException ex) {
       Hobby h = new Hobby(hobby);
       em.getTransaction().begin();
       em.persist(h);
       em.getTransaction().commit();
       return h;
-    } catch (RuntimeException ex) {
-      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
     } finally {
       em.close();
     }
@@ -154,11 +150,13 @@ public class MainFacade {
     boolean updatedData = false;
 
     Person person = em.find(Person.class, dto.getId());
+
     if (person == null) {
       throw new WebApplicationException(
           String.format("No person with provided id: (%d) found", dto.getId()), 400
       );
     }
+
 
     if(dto.getEmail() != null){
       person.setEmail(dto.getEmail());
@@ -174,9 +172,17 @@ public class MainFacade {
     }
     if(dto.getPhones() != null){
       person.setPhones(person.getNumberList(dto.getPhones()));
+      updatedData = true;
     }
+
+
     if(dto.getHobbies() != null){
-      person.setHobbies(person.getHobbyList(dto.getHobbies()));
+      for(HobbyDTO h: dto.getHobbies()){
+        Hobby ho = createHobby(h);
+        ho = em.find(Hobby.class, ho.getId());
+        person.addHobby(ho);
+      }
+      updatedData = true;
     }
 
     //Only run if any of the given data has been updated
@@ -281,6 +287,7 @@ public class MainFacade {
     EntityManager em = emf.createEntityManager();
     try {
       em.getTransaction().begin();
+      em.createQuery("DELETE FROM Phone p WHERE p.person.id = :id").setParameter("id", id).executeUpdate();
       em.createNamedQuery("Person.deletePersonById").setParameter("id", id).executeUpdate();
       em.getTransaction().commit();
       return true;

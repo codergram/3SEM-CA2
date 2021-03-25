@@ -63,8 +63,6 @@ public class PersonResource {
     return FACADE.updatePerson(p);
   }
 
-  //TODO: Fix code 500
-  //java.sql.SQLIntegrityConstraintViolationException: Cannot delete or update a parent row: a foreign key constraint fails (`ca2`.`phones`, CONSTRAINT `FK_phones_PERSON_id` FOREIGN KEY (`PERSON_id`) REFERENCES `persons` (`id`))
   @Path("{id}")
   @DELETE
   @Produces(MediaType.APPLICATION_JSON)
