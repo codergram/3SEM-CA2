@@ -160,29 +160,45 @@ public class MainFacade {
     }
   }
 
-  public synchronized PersonDTO editPerson(PersonDTO personDTO, long id) {
-    if (personDTO.getEmail() == null) {
-      throw new WebApplicationException("Email is missing", 400);
-    } else if (personDTO.getFirstName() == null || personDTO.getLastName() == null) {
-      throw new WebApplicationException("First or last name is missing", 400);
-    }
-    Person personEditInfo = new Person(personDTO.getEmail(), personDTO.getFirstName(), personDTO.getLastName());
+  public synchronized PersonDTO updatePerson(PersonDTO dto){
     EntityManager em = emf.createEntityManager();
-    Person personOldInfo = em.find(Person.class, id);
-    if (personOldInfo == null) {
-      throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 404);
+
+    boolean updatedData = false;
+
+    Person person = em.find(Person.class, dto.getId());
+    if (person == null) {
+      throw new WebApplicationException(
+          String.format("No person with provided id: (%d) found", dto.getId()), 400
+      );
     }
-    if (isEmailTaken(personDTO) && personEditInfo.getEmail() != personOldInfo.getEmail()) {
-      throw new WebApplicationException("New email is already in use", 400);
-    } else {
-      personOldInfo.setEmail(personEditInfo.getEmail());
-      personOldInfo.setFirstName(personEditInfo.getFirstName());
-      personOldInfo.setLastName(personEditInfo.getLastName());
+
+    if(dto.getEmail() != null){
+      person.setEmail(dto.getEmail());
+      updatedData = true;
+    }
+    if(dto.getFirstName() != null){
+      person.setFirstName(dto.getFirstName());
+      updatedData = true;
+    }
+    if(dto.getLastName() != null){
+      person.setLastName(dto.getLastName());
+      updatedData = true;
+    }
+    if(dto.getPhones() != null){
+      person.setPhones(person.getNumberList(dto.getPhones()));
+    }
+    if(dto.getHobbies() != null){
+      person.setHobbies(person.getHobbyList(dto.getHobbies()));
+    }
+
+    //Only run if any of the given data has been updated
+    if (updatedData) {
       em.getTransaction().begin();
-      em.merge(personOldInfo);
+      em.merge(person);
       em.getTransaction().commit();
-      return new PersonDTO(personOldInfo);
     }
+    return new PersonDTO(person);
+
   }
 
   public synchronized PersonDTO addHobbyToPerson(HobbyDTO hobbyDTO, long id) {
@@ -280,13 +296,11 @@ public class MainFacade {
     return dtos;
   }
 
-  public List<PersonDTO> getPersonListByHobby(Hobby hobby) {
-    if (hobby.getName() == null) {
-      throw new WebApplicationException("Hobby name is missing", 400);
-    }
+  public List<PersonDTO> getPersonListByHobby(String hobbyname) {
+    //hobbyname = Utility.encodeUrl(hobbyname);
     EntityManager em = emf.createEntityManager();
     TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.hobbies h WHERE h.name = :name ", Person.class);
-    query.setParameter("name", hobby.getName());
+    query.setParameter("name", hobbyname);
     List<Person> persons = query.getResultList();
     List<PersonDTO> dtos = new ArrayList<>();
     for(Person p: persons){

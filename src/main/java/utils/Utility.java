@@ -1,5 +1,7 @@
 package utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dtos.CityInfoDTO;
 import dtos.HobbyDTO;
 import dtos.PersonDTO;
@@ -8,13 +10,27 @@ import entities.CityInfo;
 import entities.Hobby;
 import entities.Person;
 import entities.Phone;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Utility {
 
+
+  public static final Gson GSON = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+
   public static boolean ValidatePerson(Person p){
     return p.getEmail() != null || p.getFirstName() != null || p.getLastName() != null;
+  }
+
+  public static String encodeUrl(String str){
+    try {
+      return URLEncoder.encode(str, StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException ex) {
+      throw new RuntimeException(ex.getCause());
+    }
   }
 
   public static boolean ValidatePersonDto(PersonDTO p){

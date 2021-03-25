@@ -164,12 +164,9 @@ public class Person implements Serializable {
 
   public List<Phone> getNumberList(List<PhoneDTO> phoneDTOS){
     ArrayList<Phone> list = new ArrayList<>();
-    System.out.println("List of DTO: " + Arrays.toString(phoneDTOS.toArray()));
       for (PhoneDTO p : phoneDTOS) {
-        System.out.println("add to new list: " + p);
         list.add(new Phone(p.getNumber()));
       }
-    System.out.println("List of phones: " + Arrays.toString(list.toArray()));
     return list;
   }
 
