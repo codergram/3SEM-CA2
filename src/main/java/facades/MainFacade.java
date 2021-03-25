@@ -144,12 +144,12 @@ public class MainFacade {
     }
   }
 
-  public synchronized PersonDTO updatePerson(PersonDTO dto){
+  public synchronized PersonDTO updatePerson(Long id, PersonDTO dto){
     EntityManager em = emf.createEntityManager();
 
     boolean updatedData = false;
 
-    Person person = em.find(Person.class, dto.getId());
+    Person person = em.find(Person.class, id);
 
     if (person == null) {
       throw new WebApplicationException(

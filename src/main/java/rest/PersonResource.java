@@ -64,11 +64,12 @@ public class PersonResource {
 
   }
 
+  @Path("{id}")
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  public PersonDTO updatePerson(PersonDTO p) {
-    return FACADE.updatePerson(p);
+  public PersonDTO updatePerson(@PathParam("id") long id, PersonDTO p) {
+    return FACADE.updatePerson(id, p);
   }
 
   @Path("{id}")
