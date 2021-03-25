@@ -321,4 +321,10 @@ public class MainFacade {
     TypedQuery<CityInfo> query = em.createQuery("SELECT c FROM CityInfo c", CityInfo.class);
     return Utility.convertList(CityInfo.class, query.getResultList());
   }
+
+  public List<PersonDTO> getAllPersons() {
+    EntityManager em = emf.createEntityManager();
+    TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.phones pp JOIN p.hobbies ph JOIN p.address pa", Person.class);
+    return Utility.convertList(PersonDTO.class, query.getResultList());
+  }
 }

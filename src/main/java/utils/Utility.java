@@ -46,6 +46,7 @@ public class Utility {
       if(type == Hobby.class) l.add(new Hobby((HobbyDTO) p));
       if(type == HobbyDTO.class) l.add(new HobbyDTO((Hobby) p));
       if(type == CityInfo.class) l.add(new CityInfoDTO((CityInfo) p));
+      if(type == PersonDTO.class) l.add(new PersonDTO((Person) p));
     }
     return l;
   }
