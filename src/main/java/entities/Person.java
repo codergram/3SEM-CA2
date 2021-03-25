@@ -157,7 +157,7 @@ public class Person implements Serializable {
 
   public void removeHobby(Hobby hobby){
     if(hobby != null){
-      this.hobbies.add(hobby);
+      this.hobbies.remove(hobby);
       hobby.getPersons().remove(this);
     }
   }
