@@ -6,7 +6,7 @@ info:
   version: 1.0.0
   contact: {}
 servers:
-  - url: "http://localhost"
+  - url: "https://api.codergram.me"
 paths:
   /ca2/api/:
     get:
@@ -15,7 +15,248 @@ paths:
       operationId: checkApiStatus
       responses:
         "200":
-          description: ""
+          description: Check API status
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "20"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:26:55 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: I am alive
+              examples:
+                Check API status:
+                  value:
+                    msg: I am alive
+  /ca2/api/count/hobby/persons:
+    get:
+      summary: Count persons with specified hobby
+      description: Count persons with specified hobby
+      operationId: countPersonsWithSpecifiedHobby
+      parameters:
+        - name: hobby
+          in: query
+          schema:
+            type: string
+            example: Internal Web Consultant
+      responses:
+        "200":
+          description: Count persons with specified hobby
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "1"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:27:49 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/octet-stream:
+              examples:
+                Count persons with specified hobby:
+                  value: "2"
+  /ca2/api/count/persons:
+    get:
+      summary: Count persons in database
+      description: Count persons in database
+      operationId: countPersonsInDatabase
+      responses:
+        "200":
+          description: Count persons in database
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "1"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:27:57 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/octet-stream:
+              examples:
+                Count persons in database:
+                  value: "5"
+  /ca2/api/person:
+    put:
+      summary: Update person
+      description: Update person
+      operationId: updatePerson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                  example: John
+                id:
+                  type: number
+                  example: 2
+                lastName:
+                  type: string
+                  example: Nielsen
+            example:
+              firstName: John
+              id: 2
+              lastName: Nielsen
+      responses:
+        "200":
+          description: Update persons hobby
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "419"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:20:05 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: object
+                    properties:
+                      additionalInfo:
+                        type: string
+                        example: Seamless multi-state paradigm
+                      cityInfo:
+                        type: object
+                        properties:
+                          city:
+                            type: string
+                            example: Ortizberg
+                          id:
+                            type: number
+                            example: 7
+                          zipCode:
+                            type: string
+                            example: "553"
+                      id:
+                        type: number
+                        example: 6
+                      street:
+                        type: string
+                        example: 7339 Ebert Ramp
+                  email:
+                    type: string
+                    example: Izaiah.Daniel@hotmail.com
+                  firstName:
+                    type: string
+                    example: Floy
+                  hobbies:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        description:
+                          type: string
+                          example: Customer
+                        id:
+                          type: number
+                          example: 6
+                        name:
+                          type: string
+                          example: Human Security Assistant
+                    example:
+                      - description: Customer
+                        id: 6
+                        name: Human Security Assistant
+                      - id: 27
+                        name: azure
+                      - id: 28
+                        name: gold
+                      - id: 26
+                        name: purple
+                  id:
+                    type: number
+                    example: 6
+                  lastName:
+                    type: string
+                    example: Maggio
+                  phones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: number
+                          example: 13595995
+                    example:
+                      - number: 13595995
+              examples:
+                Update persons hobby:
+                  value:
+                    address:
+                      additionalInfo: Seamless multi-state paradigm
+                      cityInfo:
+                        city: Ortizberg
+                        id: 7
+                        zipCode: "553"
+                      id: 6
+                      street: 7339 Ebert Ramp
+                    email: Izaiah.Daniel@hotmail.com
+                    firstName: Floy
+                    hobbies:
+                      - description: Customer
+                        id: 6
+                        name: Human Security Assistant
+                      - id: 27
+                        name: azure
+                      - id: 28
+                        name: gold
+                      - id: 26
+                        name: purple
+                    id: 6
+                    lastName: Maggio
+                    phones:
+                      - number: 13595995
   /ca2/api/person/:
     post:
       summary: Create person
@@ -27,20 +268,24 @@ paths:
             example: "{\n    \"email\": \"{{$randomEmail}}\",\n    \"firstName\": \"{{$randomFirstName}}\",\n    \"lastName\": \"{{$randomLastName}}\",\n    \"phones\": [{\n        \"number\": {{randomNumber}}\n    }],  \n    \"address\": {\n        \"street\": \"{{$randomStreetAddress}}\",\n        \"additionalInfo\": \"{{$randomCatchPhrase}}\",\n        \"cityInfo\": {\n            \"zipCode\": \"{{$randomInt}}\",\n            \"city\": \"{{$randomCity}}\"\n        }\n    },\n    \"hobbies\": [\n        {\n            \"name\": \"{{$randomJobTitle}}\",\n            \"description\": \"{{$randomJobDescriptor}}\"\n        }\n    ]\n}"
       responses:
         "200":
-          description: Create simple person
+          description: Create person with details
           headers:
             Connection:
               schema:
                 type: string
-                example: close
+                example: keep-alive
             Content-Length:
               schema:
                 type: string
-                example: "45"
+                example: "358"
             Date:
               schema:
                 type: string
-                example: "Mon, 22 Mar 2021 13:47:46 GMT"
+                example: "Thu, 25 Mar 2021 11:24:24 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
           content:
             application/json:
               schema:
@@ -48,38 +293,86 @@ paths:
                 properties:
                   address:
                     type: object
-                    properties: {}
+                    properties:
+                      additionalInfo:
+                        type: string
+                        example: Automated human-resource middleware
+                      cityInfo:
+                        type: object
+                        properties:
+                          city:
+                            type: string
+                            example: South Leonchester
+                          id:
+                            type: number
+                            example: 9
+                          zipCode:
+                            type: string
+                            example: "585"
+                      id:
+                        type: number
+                        example: 8
+                      street:
+                        type: string
+                        example: 0090 Tevin Forks
                   email:
                     type: string
-                    example: Rowena_Erdman69@hotmail.com
+                    example: Berniece.Hudson40@gmail.com
                   firstName:
                     type: string
-                    example: Jacynthe
+                    example: Elvis
                   hobbies:
                     type: array
-                    items: {}
-                    example: []
-                  id:
-                    type: number
-                    example: 38
+                    items:
+                      type: object
+                      properties:
+                        description:
+                          type: string
+                          example: Dynamic
+                        id:
+                          type: number
+                          example: 30
+                        name:
+                          type: string
+                          example: Investor Directives Developer
+                    example:
+                      - description: Dynamic
+                        id: 30
+                        name: Investor Directives Developer
                   lastName:
                     type: string
-                    example: Beer
+                    example: Ryan
                   phones:
                     type: array
-                    items: {}
-                    example: []
+                    items:
+                      type: object
+                      properties:
+                        number:
+                          type: number
+                          example: 42486362
+                    example:
+                      - number: 42486362
               examples:
-                Create simple person:
+                Create person with details:
                   value:
-                    address: {}
-                    email: Rowena_Erdman69@hotmail.com
-                    firstName: Jacynthe
-                    hobbies: []
-                    id: 38
-                    lastName: Beer
-                    phones: []
-  /ca2/api/person/32:
+                    address:
+                      additionalInfo: Automated human-resource middleware
+                      cityInfo:
+                        city: South Leonchester
+                        id: 9
+                        zipCode: "585"
+                      id: 8
+                      street: 0090 Tevin Forks
+                    email: Berniece.Hudson40@gmail.com
+                    firstName: Elvis
+                    hobbies:
+                      - description: Dynamic
+                        id: 30
+                        name: Investor Directives Developer
+                    lastName: Ryan
+                    phones:
+                      - number: 42486362
+  /ca2/api/person/6:
     get:
       summary: Get person by ID
       description: Get a person object by ID
@@ -100,11 +393,11 @@ paths:
             Content-Length:
               schema:
                 type: string
-                example: "309"
+                example: "748"
             Date:
               schema:
                 type: string
-                example: "Wed, 24 Mar 2021 12:26:06 GMT"
+                example: "Thu, 25 Mar 2021 11:23:42 GMT"
             Keep-Alive:
               schema:
                 type: string
@@ -119,32 +412,65 @@ paths:
                     properties:
                       additionalInfo:
                         type: string
-                        example: sort kasse
+                        example: Seamless multi-state paradigm
                       cityInfo:
-                        nullable: true
-                        example: ~
+                        type: object
+                        properties:
+                          city:
+                            type: string
+                            example: Ortizberg
+                          id:
+                            type: number
+                            example: 7
+                          zipCode:
+                            type: string
+                            example: "553"
                       id:
                         type: number
-                        example: 10
+                        example: 6
                       street:
                         type: string
-                        example: Teasden 112
+                        example: 7339 Ebert Ramp
                   email:
                     type: string
-                    example: abcdef@vasds.dk
+                    example: Izaiah.Daniel@hotmail.com
                   firstName:
                     type: string
-                    example: asdf
+                    example: Floy
                   hobbies:
                     type: array
-                    items: {}
-                    example: []
+                    items:
+                      type: object
+                      properties:
+                        description:
+                          type: string
+                          nullable: true
+                          example: Customer
+                        id:
+                          type: number
+                          example: 6
+                        name:
+                          type: string
+                          example: Human Security Assistant
+                    example:
+                      - description: Customer
+                        id: 6
+                        name: Human Security Assistant
+                      - description: ~
+                        id: 26
+                        name: purple
+                      - description: ~
+                        id: 27
+                        name: azure
+                      - description: ~
+                        id: 28
+                        name: gold
                   id:
                     type: number
-                    example: 13
+                    example: 6
                   lastName:
                     type: string
-                    example: ghhj
+                    example: Maggio
                   phones:
                     type: array
                     items:
@@ -155,24 +481,502 @@ paths:
                           example: ~
                         number:
                           type: number
-                          example: 14123144
+                          example: 13595995
                     example:
                       - description: ~
-                        number: 14123144
+                        number: 13595995
               examples:
                 Get person by ID:
                   value:
                     address:
-                      additionalInfo: sort kasse
-                      cityInfo: ~
-                      id: 10
-                      street: Teasden 112
-                    email: abcdef@vasds.dk
-                    firstName: asdf
-                    hobbies: []
-                    id: 13
-                    lastName: ghhj
+                      additionalInfo: Seamless multi-state paradigm
+                      cityInfo:
+                        city: Ortizberg
+                        id: 7
+                        zipCode: "553"
+                      id: 6
+                      street: 7339 Ebert Ramp
+                    email: Izaiah.Daniel@hotmail.com
+                    firstName: Floy
+                    hobbies:
+                      - description: Customer
+                        id: 6
+                        name: Human Security Assistant
+                      - description: ~
+                        id: 26
+                        name: purple
+                      - description: ~
+                        id: 27
+                        name: azure
+                      - description: ~
+                        id: 28
+                        name: gold
+                    id: 6
+                    lastName: Maggio
                     phones:
                       - description: ~
-                        number: 14123144
+                        number: 13595995
+    delete:
+      summary: Delete person
+      description: Delete person
+      operationId: deletePerson
+      responses:
+        "200":
+          description: Delete person
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "17"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:26:40 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "true"
+              examples:
+                Delete person:
+                  value:
+                    result: "true"
+  /ca2/api/person/hobby/:
+    get:
+      summary: Get Persons by Hobby
+      description: Get Persons by Hobby
+      operationId: getPersonsByHobby
+      parameters:
+        - name: hobby
+          in: query
+          schema:
+            type: string
+            example: Internal+Web+Consultant
+      responses:
+        "200":
+          description: Get Persons by Hobby
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "1275"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:27:29 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: object
+                      properties:
+                        additionalInfo:
+                          type: string
+                          example: Streamlined bottom-line software
+                        cityInfo:
+                          type: object
+                          properties:
+                            city:
+                              type: string
+                              example: Vanceberg
+                            id:
+                              type: number
+                              example: 1
+                            zipCode:
+                              type: string
+                              example: "789"
+                        id:
+                          type: number
+                          example: 1
+                        street:
+                          type: string
+                          example: 96027 Gwen Tunnel
+                    email:
+                      type: string
+                      example: hans@nielson.dk
+                    firstName:
+                      type: string
+                      example: Hans
+                    hobbies:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            type: string
+                            example: Investor
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Internal Web Consultant
+                      example:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                    id:
+                      type: number
+                      example: 1
+                    lastName:
+                      type: string
+                      example: Nielson
+                    phones:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            nullable: true
+                            example: ~
+                          number:
+                            type: number
+                            example: 13956063
+                      example:
+                        - description: ~
+                          number: 13956063
+                example:
+                  - address:
+                      additionalInfo: Streamlined bottom-line software
+                      cityInfo:
+                        city: Vanceberg
+                        id: 1
+                        zipCode: "789"
+                      id: 1
+                      street: 96027 Gwen Tunnel
+                    email: hans@nielson.dk
+                    firstName: Hans
+                    hobbies:
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 1
+                    lastName: Nielson
+                    phones:
+                      - description: ~
+                        number: 13956063
+                  - address:
+                      additionalInfo: User-friendly 6th generation product
+                      cityInfo:
+                        city: West Brandtfort
+                        id: 2
+                        zipCode: "54"
+                      id: 2
+                      street: 273 Mack Island
+                    email: Columbus.Bode@hotmail.com
+                    firstName: John
+                    hobbies:
+                      - description: Product
+                        id: 1
+                        name: Regional Interactions Supervisor
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 2
+                    lastName: Nielsen
+                    phones:
+                      - description: ~
+                        number: 1245336
+              examples:
+                Get Persons by Hobby:
+                  value:
+                    - address:
+                        additionalInfo: Streamlined bottom-line software
+                        cityInfo:
+                          city: Vanceberg
+                          id: 1
+                          zipCode: "789"
+                        id: 1
+                        street: 96027 Gwen Tunnel
+                      email: hans@nielson.dk
+                      firstName: Hans
+                      hobbies:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 1
+                      lastName: Nielson
+                      phones:
+                        - description: ~
+                          number: 13956063
+                    - address:
+                        additionalInfo: User-friendly 6th generation product
+                        cityInfo:
+                          city: West Brandtfort
+                          id: 2
+                          zipCode: "54"
+                        id: 2
+                        street: 273 Mack Island
+                      email: Columbus.Bode@hotmail.com
+                      firstName: John
+                      hobbies:
+                        - description: Product
+                          id: 1
+                          name: Regional Interactions Supervisor
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 2
+                      lastName: Nielsen
+                      phones:
+                        - description: ~
+                          number: 1245336
+  /ca2/api/person/zip/:
+    get:
+      summary: Get Persons by Zip
+      description: Get Persons by Zip
+      operationId: getPersonsByZip
+      parameters:
+        - name: zip
+          in: query
+          schema:
+            type: string
+            example: "789"
+      responses:
+        "200":
+          description: Get Persons by Zip
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "571"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:27:38 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: object
+                      properties:
+                        additionalInfo:
+                          type: string
+                          example: Streamlined bottom-line software
+                        cityInfo:
+                          type: object
+                          properties:
+                            city:
+                              type: string
+                              example: Vanceberg
+                            id:
+                              type: number
+                              example: 1
+                            zipCode:
+                              type: string
+                              example: "789"
+                        id:
+                          type: number
+                          example: 1
+                        street:
+                          type: string
+                          example: 96027 Gwen Tunnel
+                    email:
+                      type: string
+                      example: hans@nielson.dk
+                    firstName:
+                      type: string
+                      example: Hans
+                    hobbies:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            type: string
+                            example: Investor
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Internal Web Consultant
+                      example:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                    id:
+                      type: number
+                      example: 1
+                    lastName:
+                      type: string
+                      example: Nielson
+                    phones:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            nullable: true
+                            example: ~
+                          number:
+                            type: number
+                            example: 13956063
+                      example:
+                        - description: ~
+                          number: 13956063
+                example:
+                  - address:
+                      additionalInfo: Streamlined bottom-line software
+                      cityInfo:
+                        city: Vanceberg
+                        id: 1
+                        zipCode: "789"
+                      id: 1
+                      street: 96027 Gwen Tunnel
+                    email: hans@nielson.dk
+                    firstName: Hans
+                    hobbies:
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 1
+                    lastName: Nielson
+                    phones:
+                      - description: ~
+                        number: 13956063
+              examples:
+                Get Persons by Zip:
+                  value:
+                    - address:
+                        additionalInfo: Streamlined bottom-line software
+                        cityInfo:
+                          city: Vanceberg
+                          id: 1
+                          zipCode: "789"
+                        id: 1
+                        street: 96027 Gwen Tunnel
+                      email: hans@nielson.dk
+                      firstName: Hans
+                      hobbies:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 1
+                      lastName: Nielson
+                      phones:
+                        - description: ~
+                          number: 13956063
+  /ca2/api/zip/all:
+    get:
+      summary: Get list of ZIP codes
+      description: Get list of ZIP codes
+      operationId: getListOfZipCodes
+      responses:
+        "200":
+          description: Get list of ZIP codes
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "511"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 11:27:17 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    city:
+                      type: string
+                      example: Vanceberg
+                    id:
+                      type: number
+                      example: 1
+                    zipCode:
+                      type: string
+                      example: "789"
+                example:
+                  - city: Vanceberg
+                    id: 1
+                    zipCode: "789"
+                  - city: West Brandtfort
+                    id: 2
+                    zipCode: "54"
+                  - city: South Cameronton
+                    id: 5
+                    zipCode: "222"
+                  - city: Bernhardburgh
+                    id: 6
+                    zipCode: "163"
+                  - city: Ortizberg
+                    id: 7
+                    zipCode: "553"
+                  - city: North Maureenburgh
+                    id: 8
+                    zipCode: "693"
+                  - city: South Leonchester
+                    id: 9
+                    zipCode: "585"
+              examples:
+                Get list of ZIP codes:
+                  value:
+                    - city: Vanceberg
+                      id: 1
+                      zipCode: "789"
+                    - city: West Brandtfort
+                      id: 2
+                      zipCode: "54"
+                    - city: South Cameronton
+                      id: 5
+                      zipCode: "222"
+                    - city: Bernhardburgh
+                      id: 6
+                      zipCode: "163"
+                    - city: Ortizberg
+                      id: 7
+                      zipCode: "553"
+                    - city: North Maureenburgh
+                      id: 8
+                      zipCode: "693"
+                    - city: South Leonchester
+                      id: 9
+                      zipCode: "585"
 tags: []
