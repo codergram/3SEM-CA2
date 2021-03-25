@@ -56,7 +56,6 @@ public class PersonResource {
 
   }
 
-  //TODO: Test all options
   @PUT
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)

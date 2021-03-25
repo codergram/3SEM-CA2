@@ -96,18 +96,6 @@ public class MainFacade {
     }
   }
 
-  private synchronized Hobby findHobbyByName(Hobby hobby) {
-    EntityManager em = emf.createEntityManager();
-    try {
-      Query query = em.createQuery("SELECT h FROM Hobby h WHERE h.name = :name", Hobby.class);
-      query.setParameter("name", hobby.getName());
-      hobby = (Hobby) query.getSingleResult();
-      return hobby;
-    } finally {
-      em.close();
-    }
-  }
-
   public synchronized PersonDTO createPerson(PersonDTO personDTO) {
     if (Utility.ValidatePersonDto(personDTO) && !isEmailTaken(personDTO)) {
       Person person = null;
@@ -199,35 +187,6 @@ public class MainFacade {
     }
     return new PersonDTO(person);
 
-  }
-
-  public synchronized PersonDTO addHobbyToPerson(HobbyDTO hobbyDTO, long id) {
-    if (id <= 0) {
-      throw new WebApplicationException("The provided is at not valid", 400);
-    } else if (hobbyDTO.getName() == null) {
-      throw new WebApplicationException("The hobby name is at not valid", 400);
-    }
-    hobbyDTO = new SubFacade().createHobby(hobbyDTO);
-    EntityManager em = emf.createEntityManager();
-    Hobby hobby = em.find(Hobby.class, hobbyDTO.getId());
-    if (hobby == null) {
-      throw new WebApplicationException(String.format("No hobby with provided id: (%d) found", hobbyDTO.getId()), 404);
-    }
-    Person person = em.find(Person.class, id);
-    if (person == null) {
-      throw new WebApplicationException(String.format("No person with provided id: (%d) found", id), 404);
-    }
-    person.addHobby(hobby);
-    try {
-      em.getTransaction().begin();
-      em.merge(person);
-      em.getTransaction().commit();
-      return new PersonDTO(person);
-    } catch (RuntimeException ex) {
-      throw new WebApplicationException("Internal Server Problem. We are sorry for the inconvenience", 500);
-    } finally {
-      em.close();
-    }
   }
 
   public List<Phone> getPhoneByPersonId(long id) {
