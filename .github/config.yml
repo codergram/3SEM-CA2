@@ -1,0 +1,7 @@
+todo:
+  keyword: [ "@todo", "TODO", "TODO:", "@fixme", "FIXME", "FIXME:"]
+  bodyKeyword: [ "@body", "BODY" ] # string|string[]
+  autoAssign: false
+  label: true
+  reopenClosed: true
+  caseSensitive: false

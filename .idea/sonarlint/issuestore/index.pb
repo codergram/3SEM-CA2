@@ -1,0 +1,33 @@
+
+P
+ src/main/java/dtos/PhoneDTO.java,b/0/b0bee1c0c8a283f271e85935a63209621f152cc0
+7
+LICENSE,0/3/0398ccd0f49298b10a3d76a47800d2ebecd49859
+9
+	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+T
+$src/main/java/entities/CityInfo.java,e/3/e32fa96f13c6aa69e3ae97b8df67ff7e44420e88
+S
+#src/main/java/entities/Address.java,f/b/fb6f8dc0daa561334c8a82f0441fa1d1fa17b0bb
+Q
+!src/main/java/entities/Hobby.java,d/2/d27286b247a7de27252ca1baf82c1c1aae492c56
+P
+ src/main/java/dtos/HobbyDTO.java,d/6/d666e76678a337b7b505edc3e2ee11881a2b9289
+Q
+!src/main/java/dtos/PersonDTO.java,4/3/4350c8d571bd79eefc414302720d29bf5110c845
+P
+ src/main/java/utils/Utility.java,1/6/16f8bb79679fd739722cf3f7e1744b01fe78196d
+T
+$src/main/java/rest/BaseResource.java,a/f/af14f8f376f519700a7e7409c5000035c05ffb37
+R
+"src/main/java/entities/Person.java,d/a/da3758f2a161d12073382dbe8d5e6db7f68aac5f
+Q
+!src/main/java/entities/Phone.java,8/8/8843f577312c0e02fa30c79baf3cad6337ac1f73
+V
+&src/main/java/rest/PersonResource.java,d/e/de9edaba5bd94d215dcc2494912b931e5348310f
+R
+"src/main/java/cors/CorsFilter.java,2/9/29e06435a498c6e5eca3a07855a2edc5236a449b
+U
+%src/main/java/facades/MainFacade.java,0/0/003af2093fdb8fc481dc14eccf0682d5b6820db4
+P
+ src/main/webapp/openapi/api.json,5/8/582bf201dbcc69437016ec6b786b0f71a63e0bab
