@@ -25,6 +25,13 @@ public class BaseResource {
     return "{\"msg\":\"I am alive\"}";
   }
 
+  @Path("persons")
+  @GET
+  @Produces({MediaType.APPLICATION_JSON})
+  public String getAllPersons(){
+    return GSON.toJson(FACADE.getAllPersons());
+  }
+
   @Path("zip/all")
   @GET
   @Produces({MediaType.APPLICATION_JSON})

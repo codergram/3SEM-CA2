@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import dtos.PersonDTO;
 import entities.CityInfo;
 import facades.MainFacade;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -26,12 +25,6 @@ public class PersonResource {
   private static final Gson GSON = Utility.GSON;
   private static final MainFacade FACADE = MainFacade.getFacade(EMF);
 
-  @Path("all")
-  @GET
-  @Produces({MediaType.APPLICATION_JSON})
-  public String getAllPersons(){
-    return GSON.toJson(FACADE.getAllPersons());
-  }
 
   @Path("{id}")
   @GET
