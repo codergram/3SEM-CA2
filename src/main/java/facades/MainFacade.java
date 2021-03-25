@@ -177,6 +177,16 @@ public class MainFacade {
 
 
     if(dto.getHobbies() != null){
+
+      TypedQuery<Hobby> existingHobbies = em.createQuery("SELECT h FROM Hobby h JOIN h.persons p WHERE p.id = :id ", Hobby.class);
+      existingHobbies.setParameter("id", person.getId());
+      List<Hobby> hobbies = existingHobbies.getResultList();
+
+      for(Hobby existHobby : hobbies){
+        existHobby = em.find(Hobby.class, existHobby.getId());
+        person.removeHobby(existHobby);
+      }
+
       for(HobbyDTO h: dto.getHobbies()){
         Hobby ho = createHobby(h);
         ho = em.find(Hobby.class, ho.getId());
