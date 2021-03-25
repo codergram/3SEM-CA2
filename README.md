@@ -14,9 +14,9 @@
 > Course assignment 2 for 3. Semester of Spring 2021
 
 ### 📚 [Assignment](https://docs.google.com/document/d/1gAuwqsj-IhPBNk2KQ96Aku0S1suwfOXdC_-Ux9omVtc/)
-### 📜 [API Documentation](tbd)
-### 🏠 [Frontend](https://codergram.me)
-### 📡 [Backend](https://api.codergram.me)
+### 📜 [API Documentation](https://documenter.getpostman.com/view/13817901/Tz5wXafa)
+### 🏠 [Frontend](https://codergram.me/ca2/)
+### 📡 [Backend](https://api.codergram.me/ca2/)
 
 ## Author
 
