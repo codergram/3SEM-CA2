@@ -6,6 +6,7 @@ info:
   version: 1.0.0
   contact: {}
 servers:
+  - url: "http://localhost"
   - url: "https://api.codergram.me"
 paths:
   /ca2/api/:
@@ -552,6 +553,312 @@ paths:
                 Delete person:
                   value:
                     result: "true"
+  /ca2/api/person/all:
+    get:
+      summary: Get all persons
+      description: Get all persons
+      operationId: getAllPersons
+      responses:
+        "200":
+          description: Get all persons
+          headers:
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+            Content-Length:
+              schema:
+                type: string
+                example: "3176"
+            Date:
+              schema:
+                type: string
+                example: "Thu, 25 Mar 2021 12:54:48 GMT"
+            Keep-Alive:
+              schema:
+                type: string
+                example: timeout=20
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    address:
+                      type: object
+                      properties:
+                        additionalInfo:
+                          type: string
+                          example: Streamlined bottom-line software
+                        cityInfo:
+                          type: object
+                          properties:
+                            city:
+                              type: string
+                              example: Vanceberg
+                            id:
+                              type: number
+                              example: 1
+                            zipCode:
+                              type: string
+                              example: "789"
+                        id:
+                          type: number
+                          example: 1
+                        street:
+                          type: string
+                          example: 96027 Gwen Tunnel
+                    email:
+                      type: string
+                      example: hans@nielson.dk
+                    firstName:
+                      type: string
+                      example: Hans
+                    hobbies:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            type: string
+                            example: Investor
+                          id:
+                            type: number
+                            example: 2
+                          name:
+                            type: string
+                            example: Internal Web Consultant
+                      example:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                    id:
+                      type: number
+                      example: 1
+                    lastName:
+                      type: string
+                      example: Nielson
+                    phones:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          description:
+                            nullable: true
+                            example: ~
+                          number:
+                            type: number
+                            example: 13956063
+                      example:
+                        - description: ~
+                          number: 13956063
+                example:
+                  - address:
+                      additionalInfo: Streamlined bottom-line software
+                      cityInfo:
+                        city: Vanceberg
+                        id: 1
+                        zipCode: "789"
+                      id: 1
+                      street: 96027 Gwen Tunnel
+                    email: hans@nielson.dk
+                    firstName: Hans
+                    hobbies:
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 1
+                    lastName: Nielson
+                    phones:
+                      - description: ~
+                        number: 13956063
+                  - address:
+                      additionalInfo: User-friendly 6th generation product
+                      cityInfo:
+                        city: West Brandtfort
+                        id: 2
+                        zipCode: "54"
+                      id: 2
+                      street: 273 Mack Island
+                    email: Columbus.Bode@hotmail.com
+                    firstName: John
+                    hobbies:
+                      - description: Product
+                        id: 1
+                        name: Regional Interactions Supervisor
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 2
+                    lastName: Nielsen
+                    phones:
+                      - description: ~
+                        number: 1245336
+                  - address:
+                      additionalInfo: User-friendly 6th generation product
+                      cityInfo:
+                        city: West Brandtfort
+                        id: 2
+                        zipCode: "54"
+                      id: 2
+                      street: 273 Mack Island
+                    email: Columbus.Bode@hotmail.com
+                    firstName: John
+                    hobbies:
+                      - description: Product
+                        id: 1
+                        name: Regional Interactions Supervisor
+                      - description: Investor
+                        id: 2
+                        name: Internal Web Consultant
+                    id: 2
+                    lastName: Nielsen
+                    phones:
+                      - description: ~
+                        number: 1245336
+                  - address:
+                      additionalInfo: Progressive next generation methodology
+                      cityInfo:
+                        city: North Maureenburgh
+                        id: 8
+                        zipCode: "693"
+                      id: 7
+                      street: 25176 Coleman Drive
+                    email: Jaylon_Tillman78@yahoo.com
+                    firstName: Drew
+                    hobbies:
+                      - description: National
+                        id: 24
+                        name: Investor Response Architect
+                    id: 7
+                    lastName: Herzog
+                    phones:
+                      - description: ~
+                        number: 97191781
+                  - address:
+                      additionalInfo: Automated human-resource middleware
+                      cityInfo:
+                        city: South Leonchester
+                        id: 9
+                        zipCode: "585"
+                      id: 8
+                      street: 0090 Tevin Forks
+                    email: Berniece.Hudson40@gmail.com
+                    firstName: Elvis
+                    hobbies:
+                      - description: Dynamic
+                        id: 30
+                        name: Investor Directives Developer
+                    id: 8
+                    lastName: Ryan
+                    phones:
+                      - description: ~
+                        number: 42486362
+              examples:
+                Get all persons:
+                  value:
+                    - address:
+                        additionalInfo: Streamlined bottom-line software
+                        cityInfo:
+                          city: Vanceberg
+                          id: 1
+                          zipCode: "789"
+                        id: 1
+                        street: 96027 Gwen Tunnel
+                      email: hans@nielson.dk
+                      firstName: Hans
+                      hobbies:
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 1
+                      lastName: Nielson
+                      phones:
+                        - description: ~
+                          number: 13956063
+                    - address:
+                        additionalInfo: User-friendly 6th generation product
+                        cityInfo:
+                          city: West Brandtfort
+                          id: 2
+                          zipCode: "54"
+                        id: 2
+                        street: 273 Mack Island
+                      email: Columbus.Bode@hotmail.com
+                      firstName: John
+                      hobbies:
+                        - description: Product
+                          id: 1
+                          name: Regional Interactions Supervisor
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 2
+                      lastName: Nielsen
+                      phones:
+                        - description: ~
+                          number: 1245336
+                    - address:
+                        additionalInfo: User-friendly 6th generation product
+                        cityInfo:
+                          city: West Brandtfort
+                          id: 2
+                          zipCode: "54"
+                        id: 2
+                        street: 273 Mack Island
+                      email: Columbus.Bode@hotmail.com
+                      firstName: John
+                      hobbies:
+                        - description: Product
+                          id: 1
+                          name: Regional Interactions Supervisor
+                        - description: Investor
+                          id: 2
+                          name: Internal Web Consultant
+                      id: 2
+                      lastName: Nielsen
+                      phones:
+                        - description: ~
+                          number: 1245336
+                    - address:
+                        additionalInfo: Progressive next generation methodology
+                        cityInfo:
+                          city: North Maureenburgh
+                          id: 8
+                          zipCode: "693"
+                        id: 7
+                        street: 25176 Coleman Drive
+                      email: Jaylon_Tillman78@yahoo.com
+                      firstName: Drew
+                      hobbies:
+                        - description: National
+                          id: 24
+                          name: Investor Response Architect
+                      id: 7
+                      lastName: Herzog
+                      phones:
+                        - description: ~
+                          number: 97191781
+                    - address:
+                        additionalInfo: Automated human-resource middleware
+                        cityInfo:
+                          city: South Leonchester
+                          id: 9
+                          zipCode: "585"
+                        id: 8
+                        street: 0090 Tevin Forks
+                      email: Berniece.Hudson40@gmail.com
+                      firstName: Elvis
+                      hobbies:
+                        - description: Dynamic
+                          id: 30
+                          name: Investor Directives Developer
+                      id: 8
+                      lastName: Ryan
+                      phones:
+                        - description: ~
+                          number: 42486362
   /ca2/api/person/hobby/:
     get:
       summary: Get Persons by Hobby
