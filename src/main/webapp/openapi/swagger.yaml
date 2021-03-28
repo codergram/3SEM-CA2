@@ -1,14 +1,14 @@
 openapi: 3.0.1
 info:
   title: CA2 API
-  description: Simple API to use as start code for backend web projects.
+  description: API Documentation used for the backend of our CA2 assignment.
   contact:
-    name: Emil Elkjær Nielsne
+    name: Emil Elkjær Nielsen
     email: cph-en93@cphbusiness.dk
   version: "1.0"
 servers:
 - url: http://localhost:8080/ca2
-  description: For Local host testing
+  description: For Localhost testing
   variables: {}
 - url: https://api.codergram.me/ca2
   description: Server API
@@ -212,6 +212,15 @@ paths:
           description: List of persons
         "400":
           description: No persons found
+  /api/status:
+    get:
+      tags:
+      - base
+      summary: Test the API status
+      operationId: alive
+      responses:
+        "200":
+          description: API is alive
   /api/zip/all:
     get:
       tags:

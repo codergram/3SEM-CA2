@@ -29,30 +29,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import utils.Utility;
-@OpenAPIDefinition(
-    info = @Info(
-        title = "CA2 API",
-        version = "1.0",
-        description = "Simple API to use as start code for backend web projects.",
-        contact = @Contact( name = "Emil Elkjær Nielsne", email = "cph-en93@cphbusiness.dk")
-    ),
-    tags = {
-        @Tag(name = "base", description = "API base"),
-        @Tag(name = "person", description = "Persons API")
 
-    },
-    servers = {
-        @Server(
-            description = "For Local host testing",
-            url = "http://localhost:8080/ca2"
-        ),
-        @Server(
-            description = "Server API",
-            url = "https://api.codergram.me/ca2"
-        )
-
-    }
-)
 @Path("person")
 public class PersonResource {
 
