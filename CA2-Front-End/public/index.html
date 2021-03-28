@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Webpack/Babel-demo</title>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h2>All Persons</h2>
+            <div>
+                <form>
+                    <span>Search the Person table: </span>
+                    <select name="cars" id="searchOption">
+                        <option value="ID">Person by ID</option>
+                        <option value="Hobby">Persons by Hobby</option>
+                        <option value="Zip">Persons by Zip Code</option>
+                    </select>
+                    <input type="text" name="searchText" id="searchInput" maxlength="50" size="25" placeholder="Write search input here..."/>
+                    <button type="button" id="search" class="btn-secondary">
+                        Search
+                    </button>
+                </form>
+                <br>
+
+
+
+            </div>
+            <div style="min-height: 200px">
+                <table class="table" style="width: 90%">
+                    <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>Email</td>
+                        <td>First name</td>
+                        <td>Last name</td>
+                        <td>Street</td>
+                        <td>Zip</td>
+                        <td>City</td>
+                        <td>Phones</td>
+                        <td>Hobbies</td>
+                        <td>Edit</td>
+                        <td>Delete</td>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+            <button type="button" id="reload" class="btn btn-secondary">
+                Reload Data
+            </button>
+            <button type="button" id="addPerson" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                Add New Person
+            </button>
+            <div id="error" class="alert alert-danger" role="alert" style="width: 50%; margin-top: 10px"></div>
+
+            <!-- Modal add person -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div id="header" class="modal-header"></div>
+                        <div class="modal-body">
+<!--                            <input type="hidden" id="id"/>-->
+                            <div class="form-group">
+                                <label for="personEmail">Email</label>
+                                <input type="email" class="form-control" id="personEmail"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="personFirstName">First name</label>
+                                <input type="text" class="form-control" id="personFirstName"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="personLastName">Last name</label>
+                                <input type="text" class="form-control" id="personLastName"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressStreet">Street</label>
+                                <input type="text" class="form-control" name="addressStreet" id="addressStreet"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressZip">Zip</label>
+                                <input type="number" class="form-control" name="addressZip" id="addressZip"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressCity">City</label>
+                                <input type="text" class="form-control" name="addressCity" id="addressCity"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="personPhone">Phone</label>
+                                <input type="number" class="form-control" name="addressCity" id="personPhone" min="10000000"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="personHobby">Hobby</label>
+                                <input type="text" class="form-control" name="addressCity" id="personHobby"/>
+                            </div>
+
+                            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                            <input type="submit" tabindex="-1" style="position: absolute; top: -1000px"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" id="savebtn" class="btn btn-primary" data-dismiss="modal">
+                                Add Person
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Edit person -->
+            <div class="modal fade" id="editMyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div id="header1" class="modal-header"></div>
+                        <div class="modal-body">
+                            <input type="hidden" id="personID"/>
+                            <div class="form-group">
+                                <label for="editPersonEmail">Email</label>
+                                <input type="email" class="form-control" id="editPersonEmail" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPersonFirstName">First name</label>
+                                <input type="text" class="form-control" id="editPersonFirstName" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPersonLastName">Last name</label>
+                                <input type="text" class="form-control" id="editPersonLastName" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressStreet">Street</label>
+                                <input type="text" class="form-control" name="addressStreet" id="editAddressStreet" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressZip">Zip</label>
+                                <input type="number" class="form-control" name="addressZip" id="editAddressZip" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="addressCity">City</label>
+                                <input type="text" class="form-control" name="addressCity" id="editAddressCity" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPersonPhone">Phone</label>
+                                <input type="number" class="form-control" name="addressCity" id="editPersonPhone" min="10000000" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="editPersonHobby">Hobby</label>
+                                <input type="text" class="form-control" name="addressCity" id="editPersonHobby" required/>
+                            </div>
+
+                            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                            <input type="submit" tabindex="-1" style="position: absolute; top: -1000px"/>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Cancel
+                            </button>
+                            <button type="button" id="editbtn" class="btn btn-primary" data-dismiss="modal">
+                                Edit Person
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+</div>
+</body>
+</html>

@@ -30,8 +30,8 @@ public class Api extends Application {
     resources.add(cors.CorsFilter.class);
     resources.add(exceptions.ExceptionHandler.class);
     resources.add(org.glassfish.jersey.server.wadl.internal.WadlResource.class);
-    resources.add(rest.PersonResource.class);
     resources.add(rest.BaseResource.class);
+    resources.add(rest.PersonResource.class);
   }
 
 }
