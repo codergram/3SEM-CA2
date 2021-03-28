@@ -215,4 +215,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/netbeans,intellij+all,vscode,macos,windows,linux,java-web,java,code-java
+
+# Node build
+build/
+node_modules/
+package-lock.json

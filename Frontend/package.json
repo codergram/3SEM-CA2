@@ -1,7 +1,7 @@
 {
-  "name": "webpacktutorial",
+  "name": "frontend-pack",
   "version": "1.0.0",
-  "description": "Demo Client Start Code for cphbusiness Datamatiker 3. semester period 2",
+  "description": "Front-end for 3. Semester, Course Assignment 2",
   "main": "index.js",
   "private": true,
   "scripts": {
@@ -30,6 +30,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "bootstrap": "^4.5.2"
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1"
   }
 }
