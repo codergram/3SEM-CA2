@@ -330,7 +330,7 @@ document.getElementById("search").addEventListener('click', function () {
                     `;
 
                     //console.log("test");
-                    console.log(person);
+                    console.log(persons);
                     //console.log(persons.all);
                     //console.log(personRow);
                     document.getElementById("tbody").innerHTML = personRow;
@@ -441,9 +441,6 @@ document.getElementById("search").addEventListener('click', function () {
                 }
             });
         }
-
-        document.getElementById("searchInput").value = "";
-
     } else {
         document.getElementById("error").innerHTML = "Input field is empty!!";
         document.getElementById("error").style.display = "block";
