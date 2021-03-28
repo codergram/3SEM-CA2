@@ -32,6 +32,15 @@ function deletePerson(id){
         .then(res => handleHttpErrors(res))
 }
 
+function getPersonByHobby(hobby){
+    return fetch(URL + "api/person/hobby/?hobby=" + hobby)
+        .then(res => handleHttpErrors(res))
+}
+
+function getPersonByZip(zip){
+    return fetch(URL + "api/person/zip/?zip=" + zip)
+        .then(res => handleHttpErrors(res))
+}
 
 //Options for POST, PUT og DELETE
 function makeOptions(method, body) {
@@ -67,7 +76,9 @@ const personFacade = {
     getPersonById,
     addPerson,
     editPerson,
-    deletePerson
+    deletePerson,
+    getPersonByHobby,
+    getPersonByZip
 }
 
 export default personFacade;

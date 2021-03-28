@@ -307,8 +307,8 @@ document.getElementById("search").addEventListener('click', function () {
     const searchOption = document.getElementById("searchOption").value;
     const input = document.getElementById("searchInput").value;
     console.log(searchOption);
-    if(input !== ""){
-        if(searchOption === "ID"){
+    if (input !== "") {
+        if (searchOption === "ID") {
             personFacade.getPersonById(input)
                 .then(person => {
                     console.log(person);
@@ -330,7 +330,7 @@ document.getElementById("search").addEventListener('click', function () {
                     `;
 
                     //console.log("test");
-                    //console.log(persons);
+                    console.log(persons);
                     //console.log(persons.all);
                     //console.log(personRow);
                     document.getElementById("tbody").innerHTML = personRow;
@@ -352,10 +352,94 @@ document.getElementById("search").addEventListener('click', function () {
                     document.getElementById("error").style.display = "block";
                 }
             });
-        } else if (searchOption === "Hobby"){
+        } else if (searchOption === "Hobby") {
+            personFacade.getPersonByHobby(input)
+                .then(persons => {
+                    console.log(persons);
 
-        } else if (searchOption === "Zip"){
+                    const personRow = persons.map(person => `
+                    <tr>
+                    <td>${person.id}</td>
+                    <td>${person.email}</td>
+                    <td>${person.firstName}</td>
+                    <td>${person.lastName}</td>
+                    <td>${person.address.street}</td>
+                    <td>${person.address.cityInfo.zipCode}</td>
+                    <td>${person.address.cityInfo.city}</td>
+                    <td>${person.phones.map(phone => `<span>${phone.number}</span><br>`).join()}</td>
+                    <td>${person.hobbies.map(hobby => `<span>${hobby.name}</span><br>`).join()}</td>
+                    <td><button class="btn-primary small" title="edit" id="${person.id}" data-toggle="modal" data-target="#editMyModal">Edit</button></td>
+                    <td><button class="btn-danger small" title="delete"  id="${person.id}">Delete</button></td>
+                    </tr>
+                    `).join("");
 
+                    //console.log("test");
+                    console.log(persons);
+                    //console.log(persons.all);
+                    //console.log(personRow);
+                    document.getElementById("tbody").innerHTML = personRow;
+                    //Reset error message
+                    document.getElementById("error").innerHTML = "";
+
+                }).catch(err => {
+                if (err.status) {
+                    err.fullError.then(e => {
+                        console.log(e.detail);
+                        console.log(e);
+                        //Print error message on website
+                        document.getElementById("error").innerHTML = "ERROR!!! Status code: " + e.status + ", message: " + e.msg;
+                        document.getElementById("error").style.display = "block";
+                    })
+                } else {
+                    console.log("Network error");
+                    document.getElementById("error").innerHTML = "Network error";
+                    document.getElementById("error").style.display = "block";
+                }
+            });
+        } else if (searchOption === "Zip") {
+            personFacade.getPersonByZip(input)
+                .then(persons => {
+                    console.log(persons);
+
+                    const personRow = persons.map(person => `
+                    <tr>
+                    <td>${person.id}</td>
+                    <td>${person.email}</td>
+                    <td>${person.firstName}</td>
+                    <td>${person.lastName}</td>
+                    <td>${person.address.street}</td>
+                    <td>${person.address.cityInfo.zipCode}</td>
+                    <td>${person.address.cityInfo.city}</td>
+                    <td>${person.phones.map(phone => `<span>${phone.number}</span><br>`).join()}</td>
+                    <td>${person.hobbies.map(hobby => `<span>${hobby.name}</span><br>`).join()}</td>
+                    <td><button class="btn-primary small" title="edit" id="${person.id}" data-toggle="modal" data-target="#editMyModal">Edit</button></td>
+                    <td><button class="btn-danger small" title="delete"  id="${person.id}">Delete</button></td>
+                    </tr>
+                    `).join("");
+
+                    //console.log("test");
+                    console.log(persons);
+                    //console.log(persons.all);
+                    //console.log(personRow);
+                    document.getElementById("tbody").innerHTML = personRow;
+                    //Reset error message
+                    document.getElementById("error").innerHTML = "";
+
+                }).catch(err => {
+                if (err.status) {
+                    err.fullError.then(e => {
+                        console.log(e.detail);
+                        console.log(e);
+                        //Print error message on website
+                        document.getElementById("error").innerHTML = "ERROR!!! Status code: " + e.status + ", message: " + e.msg;
+                        document.getElementById("error").style.display = "block";
+                    })
+                } else {
+                    console.log("Network error");
+                    document.getElementById("error").innerHTML = "Network error";
+                    document.getElementById("error").style.display = "block";
+                }
+            });
         }
     } else {
         document.getElementById("error").innerHTML = "Input field is empty!!";
