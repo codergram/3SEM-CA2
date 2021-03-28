@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Swagger UI</title>
+    <title>API Documentation</title>
     <link rel="stylesheet" type="text/css" href="openapi/swagger-ui.css" >
     <link rel="icon" type="image/png" href="openapi/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="openapi/favicon-16x16.png" sizes="16x16" />
@@ -33,7 +33,6 @@
 <body>
 <div id="swagger-ui"></div>
 <div class="swagger-ui" style="margin-left: 20px;" >
-    <a href="../">Back to Project Page</a>
 </div>
 <script src="openapi/swagger-ui-bundle.js"> </script>
 <script src="openapi/swagger-ui-standalone-preset.js"> </script>
@@ -41,7 +40,7 @@
     window.onload = function() {
         // Begin Swagger UI call region
         const ui = SwaggerUIBundle({
-            url: "openapi/api.json",
+            url: "openapi/swagger.json",
             dom_id: '#swagger-ui',
             deepLinking: true,
             presets: [

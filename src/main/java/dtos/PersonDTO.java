@@ -1,17 +1,26 @@
 package dtos;
 
 import entities.Person;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 
+@Schema(name = "Person")
 public class PersonDTO {
   //variables
+  @Schema(required = false)
   private Long id;
+  @Schema(required = true)
   private String email;
+  @Schema(required = true)
   private String firstName;
+  @Schema(required = true)
   private String lastName;
+  @Schema(required = false)
   private List<PhoneDTO> phones;
+  @Schema(required = false)
   private List<HobbyDTO> hobbies;
+  @Schema(required = false)
   private AddressDTO address;
 
   public PersonDTO() {}

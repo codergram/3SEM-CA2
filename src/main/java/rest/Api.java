@@ -1,5 +1,10 @@
 package rest;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
