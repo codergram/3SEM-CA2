@@ -1,10 +1,15 @@
 package dtos;
 
 import entities.Hobby;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "Hobby")
 public class HobbyDTO {
+  @Schema(required = false)
   private Long id;
+  @Schema(required = true)
   private String name;
+  @Schema(required = false)
   private String description;
 
   public HobbyDTO(){}

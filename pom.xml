@@ -131,7 +131,20 @@
       <version>2.0.9</version>
       <type>jar</type>
     </dependency>
+    <dependency>
+      <groupId>org.apache.clerezza.ext</groupId>
+      <artifactId>org.json.simple</artifactId>
+      <version>0.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.kongchen</groupId>
+      <artifactId>swagger-maven-plugin</artifactId>
+      <version>3.1.8</version>
+    </dependency>
   </dependencies>
+
+
 
   <build>
     <plugins>
@@ -231,6 +244,27 @@
             <configuration>
               <outputFile>${project.build.outputDirectory}/properties-from-pom.properties</outputFile>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>io.openapitools.swagger</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <configuration>
+          <resourcePackages>
+            <resourcePackage>rest</resourcePackage>
+          </resourcePackages>
+          <outputDirectory>${basedir}/src/main/webapp/openapi/</outputDirectory>
+          <outputFilename>swagger</outputFilename>
+          <outputFormats>JSON,YAML</outputFormats>
+          <prettyPrint>true</prettyPrint>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

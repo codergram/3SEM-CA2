@@ -1,10 +1,15 @@
 package dtos;
 
 import entities.CityInfo;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name="CityInfo")
 public class CityInfoDTO {
+  @Schema(required = false)
   private Long id;
+  @Schema(required = true)
   private String zipCode;
+  @Schema(required = true)
   private String city;
 
   public CityInfoDTO(){}

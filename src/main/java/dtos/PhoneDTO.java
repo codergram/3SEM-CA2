@@ -2,9 +2,13 @@ package dtos;
 
 
 import entities.Phone;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "Phone")
 public class PhoneDTO {
+  @Schema(required = true)
   private int number;
+  @Schema(required = false)
   private String description;
 
   public PhoneDTO(){}

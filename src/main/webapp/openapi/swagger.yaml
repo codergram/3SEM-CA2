@@ -1,0 +1,318 @@
+openapi: 3.0.1
+info:
+  title: CA2 API
+  description: API Documentation used for the backend of our CA2 assignment.
+  contact:
+    name: Emil Elkjær Nielsen
+    email: cph-en93@cphbusiness.dk
+  version: "1.0"
+servers:
+- url: http://localhost:8080/ca2
+  description: For Localhost testing
+  variables: {}
+- url: https://api.codergram.me/ca2
+  description: Server API
+  variables: {}
+tags:
+- name: base
+  description: API base
+- name: person
+  description: Persons API
+paths:
+  /api/count/hobby/persons:
+    get:
+      tags:
+      - person
+      summary: Count persons with given hobby
+      operationId: getPersonCountByHobby
+      parameters:
+      - name: hobby
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Number of persons with hobby
+        "400":
+          description: No persons found
+  /api/count/persons:
+    get:
+      tags:
+      - person
+      summary: Count persons in database
+      operationId: getPersonCount
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Number of persons
+        "400":
+          description: No persons found
+  /api/person:
+    post:
+      tags:
+      - person
+      summary: Create new person
+      operationId: createNewPerson
+      requestBody:
+        description: Person to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Person was created
+        "400":
+          description: Person was not created
+        "500":
+          description: Internal error
+  /api/person/hobby:
+    get:
+      tags:
+      - person
+      summary: Get person by their hobby
+      operationId: getPersonByHobby
+      parameters:
+      - name: hobby
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Found person
+        "400":
+          description: No persons found
+  /api/person/zip:
+    get:
+      tags:
+      - person
+      summary: Get person by their zip code
+      operationId: getPersonByZip
+      parameters:
+      - name: zip
+        in: query
+        schema:
+          type: string
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Found person
+        "400":
+          description: No persons found
+  /api/person/{id}:
+    get:
+      tags:
+      - person
+      summary: Get person by ID
+      operationId: getPersonById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Found person
+        "400":
+          description: No persons found
+    put:
+      tags:
+      - person
+      summary: Update a person
+      operationId: updatePerson
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: Updated person object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+        required: true
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: Person was created
+        "400":
+          description: Person was not created
+        "500":
+          description: Internal error
+    delete:
+      tags:
+      - person
+      summary: Delete a person
+      operationId: editPerson
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Person was created
+        "400":
+          description: Person was not created
+        "500":
+          description: Internal error
+  /api/persons:
+    get:
+      tags:
+      - person
+      summary: Get a list of all persons
+      operationId: getAllPersons
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        "200":
+          description: List of persons
+        "400":
+          description: No persons found
+  /api/status:
+    get:
+      tags:
+      - base
+      summary: Test the API status
+      operationId: alive
+      responses:
+        "200":
+          description: API is alive
+  /api/zip/all:
+    get:
+      tags:
+      - base
+      summary: Get a list of all zip codes
+      operationId: getListOfZips
+      responses:
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CityInfo'
+        "200":
+          description: List of zips
+        "400":
+          description: No zips found
+components:
+  schemas:
+    Address:
+      required:
+      - cityInfo
+      - street
+      type: object
+      properties:
+        additionalInfo:
+          type: string
+        cityInfo:
+          $ref: '#/components/schemas/CityInfo'
+        id:
+          type: integer
+          format: int64
+          example: 3
+        street:
+          type: string
+    CityInfo:
+      required:
+      - city
+      - zipCode
+      type: object
+      properties:
+        city:
+          type: string
+        id:
+          type: integer
+          format: int64
+        zipCode:
+          type: string
+    Hobby:
+      required:
+      - name
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    Person:
+      required:
+      - email
+      - firstName
+      - lastName
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+        firstName:
+          type: string
+        hobbies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Hobby'
+        id:
+          type: integer
+          format: int64
+        lastName:
+          type: string
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+    Phone:
+      required:
+      - number
+      type: object
+      properties:
+        description:
+          type: string
+        number:
+          type: integer
+          format: int32
