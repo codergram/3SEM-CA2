@@ -28,7 +28,7 @@
 👤 **Sigurd Arik Gaarde Nielsen**
 
 * [Github](https://github.com/ariktwena)
-
+* [LinkedIn](https://www.linkedin.com/in/arik-gaarde-nielsen-3a54255/)
 
 👤 **Jacob Lange Nielsen**
 
